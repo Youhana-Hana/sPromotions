@@ -20,7 +20,7 @@ public class Promotions extends FragmentActivity implements
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), this);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);

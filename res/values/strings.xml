@@ -4,4 +4,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_section1">Promotions</string>
     <string name="title_section2">Promote</string>
-</resources>
+    <string name="user_profile">User profile</string>
+    <string name="user_name">User name</string>
+    <string name="user_name_summary">User name for your promotions</string>
+    <string name="pref_vibrate">Vibrate</string>
+    <string name="pref_vibrate_summary">Enable vibrate for notification</string>
+ </resources>
