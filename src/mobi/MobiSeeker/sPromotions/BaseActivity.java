@@ -1,8 +1,6 @@
 package mobi.MobiSeeker.sPromotions;
 
 import java.util.HashMap;
-
-import roboguice.activity.RoboFragmentActivity;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -15,10 +13,10 @@ import com.MobiSeeker.PrescriptionWatcher.connection.IChordServiceListener;
 public abstract class BaseActivity extends FragmentActivity implements
 		IChordServiceListener {
 
-	static RoboFragmentActivity currentRoboActivity;
+	static FragmentActivity currentRoboActivity;
 
 	public static void setCurrentRoboActivity(
-			RoboFragmentActivity _currentRoboActivity) {
+			FragmentActivity _currentRoboActivity) {
 		currentRoboActivity = _currentRoboActivity;
 	}
 
