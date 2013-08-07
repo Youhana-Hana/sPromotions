@@ -9,4 +9,9 @@
     <string name="user_name_summary">User name for your promotions</string>
     <string name="pref_vibrate">Vibrate</string>
     <string name="pref_vibrate_summary">Enable vibrate for notification</string>
+    <string name="pref_logo">Logo</string>
+    <string name="selectlogo">Select your company logo</string>
+   <string name="pref_textonly">Text only</string>
+    <string name="pref_textonly_summary">Accept text only promotions</string>
+  
  </resources>
