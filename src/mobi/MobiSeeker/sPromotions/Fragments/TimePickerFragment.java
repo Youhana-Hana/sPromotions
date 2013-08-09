@@ -1,4 +1,4 @@
-package com.MobiSeeker.PrescriptionWatcher.Fragments;
+package mobi.MobiSeeker.sPromotions.Fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

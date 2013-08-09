@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/entryAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="@string/promote"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"/>
+    
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|center_vertical"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:drawSelectorOnTop="false"
+        android:layout_above="@id/entryAdd" />
+
+    <TextView
+        android:gravity="center_horizontal|center_vertical"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/emptyPromotelist"
+        android:layout_above="@id/entryAdd" />
+ 
+   
+</RelativeLayout>

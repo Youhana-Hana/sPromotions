@@ -1,4 +1,4 @@
-package com.MobiSeeker.PrescriptionWatcher.Fragments;
+package mobi.MobiSeeker.sPromotions.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

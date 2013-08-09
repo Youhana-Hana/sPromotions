@@ -1,5 +1,6 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.activites;
 
+import mobi.MobiSeeker.sPromotions.R;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;

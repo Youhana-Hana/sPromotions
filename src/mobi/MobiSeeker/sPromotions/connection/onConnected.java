@@ -1,4 +1,4 @@
-package com.MobiSeeker.PrescriptionWatcher.connection;
+package mobi.MobiSeeker.sPromotions.connection;
 
 public interface onConnected {
 

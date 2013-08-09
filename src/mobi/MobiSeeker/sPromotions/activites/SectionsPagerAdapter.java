@@ -1,6 +1,8 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.activites;
 
 import java.util.Locale;
+
+import mobi.MobiSeeker.sPromotions.R;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,16 +21,22 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
-		if (position == 2)
-		{
+		switch(position) {
+		case 0:	
+			Fragment fragment = new DummySectionFragment();
+			Bundle args = new Bundle();
+			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+			fragment.setArguments(args);
+			return fragment;
+		case 1:
+			return new PromotedList();
+		case 2:
+			return new SettingsFragment();
+		case 3:
+			return new SettingsFragment();
+		default:
 			return new SettingsFragment();
 		}
-		
-		Fragment fragment = new DummySectionFragment();
-		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-		fragment.setArguments(args);
-		return fragment;
 	}
 
 	@Override

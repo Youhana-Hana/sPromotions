@@ -1,15 +1,15 @@
-package com.MobiSeeker.PrescriptionWatcher.connection;
+package mobi.MobiSeeker.sPromotions.connection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mobi.MobiSeeker.sPromotions.BaseActivity;
+import mobi.MobiSeeker.sPromotions.activites.*;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.ChordServiceBinder;
+import mobi.MobiSeeker.sPromotions.connection.ChordApiService.ChordServiceBinder;
 import com.samsung.chord.ChordManager;
 import com.samsung.chord.IChordChannel;
 
@@ -175,20 +175,20 @@ public class ServiceManger {
 	 public void bindChordService()
 	 {
 	        if (mChordService == null) {
-	            Intent intent = new Intent("com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_BIND");
+	            Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_BIND");
 	            mainActivity.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 	        }
     }
 
 	 public void startService()
 	 {
-	        Intent intent = new Intent("com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_START");
+	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_START");
 	        mainActivity.startService(intent);
 	 }
 
 	 private void stopService()
 	 {
-	        Intent intent = new Intent("com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_STOP");
+	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_STOP");
 	        mainActivity.stopService(intent);
 	 }
 

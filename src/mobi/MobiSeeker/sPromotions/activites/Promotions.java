@@ -1,8 +1,13 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.activites;
 
+import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,7 +16,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class Promotions extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -20,6 +24,11 @@ public class Promotions extends FragmentActivity implements
 	ViewPager mViewPager;
 
 	private final int REQ_CODE_PICK_IMAGE = 1;
+
+	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
+
+	BroadcastReceiver receiver;
+	IntentFilter intentFIlter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,37 @@ public class Promotions extends FragmentActivity implements
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
+						if (position > 2) {
+							return;
+						}
+
 						actionBar.setSelectedNavigationItem(position);
-						//setImage();
 					}
 				});
 
 		this.addTabs(actionBar);
+
+		this.intentFIlter = new IntentFilter(
+				Promotions.Add_New_Promotion_Action);
+
+		receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				viewAddNewPromotion();
+			}
+		};
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(receiver);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(receiver, this.intentFIlter);
 	}
 
 	@Override
@@ -102,6 +136,10 @@ public class Promotions extends FragmentActivity implements
 		}
 	}
 
+	private void viewAddNewPromotion() {
+		mViewPager.setCurrentItem(3);
+	}
+
 	private void addTabs(final ActionBar actionBar) {
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
@@ -109,5 +147,4 @@ public class Promotions extends FragmentActivity implements
 					.setTabListener(this));
 		}
 	}
-
 }

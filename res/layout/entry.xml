@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp" >
+
+     <TextView android:id="@+id/entryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:textIsSelectable="false" />
+
+        <TextView android:id="@+id/entrySummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:layout_alignLeft="@android:id/title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:maxLines="2"
+            android:textIsSelectable="false"/>
+
+        <ImageView android:id="@+id/entryLogo"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:maxWidth="150dp"
+            android:maxHeight="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/entrySummary"/>
+        
+       <Button
+        android:id="@+id/entryDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_below="@id/entrySummary"
+        android:padding="5dp"/>
+    
+</RelativeLayout>

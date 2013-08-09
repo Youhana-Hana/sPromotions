@@ -1,4 +1,4 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

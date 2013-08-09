@@ -1,4 +1,4 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.activites;
 
 import java.util.HashMap;
 import android.media.Ringtone;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 
-import com.MobiSeeker.PrescriptionWatcher.connection.IChordServiceListener;
+import mobi.MobiSeeker.sPromotions.connection.IChordServiceListener;
 
 public abstract class BaseActivity extends FragmentActivity implements
 		IChordServiceListener {

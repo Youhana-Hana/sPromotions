@@ -1,4 +1,4 @@
-package com.MobiSeeker.PrescriptionWatcher.connection;
+package mobi.MobiSeeker.sPromotions.connection;
 
 public interface IChordServiceListener {
     public static final int SENT = 0;

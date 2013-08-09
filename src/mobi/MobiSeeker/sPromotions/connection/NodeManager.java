@@ -1,4 +1,4 @@
-package com.MobiSeeker.PrescriptionWatcher.connection;
+package mobi.MobiSeeker.sPromotions.connection;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class NodeManager {
 
     public static String CHORD_API_CHANNEL ="youssef12345"; 
-    	//	"com.MobiSeeker.PrescriptionWatcher";
+    	//	"mobi.MobiSeeker.sPromotions";
 
     private static final String TAG = "[Chord][ApiService]";
 

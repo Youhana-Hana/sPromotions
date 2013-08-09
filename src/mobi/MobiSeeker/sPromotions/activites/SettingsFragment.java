@@ -1,5 +1,7 @@
-package mobi.MobiSeeker.sPromotions;
+package mobi.MobiSeeker.sPromotions.activites;
 
+import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
