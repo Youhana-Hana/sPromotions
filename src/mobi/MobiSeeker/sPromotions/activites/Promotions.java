@@ -1,8 +1,12 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
+import java.util.zip.Inflater;
+
 import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -48,10 +53,6 @@ public class Promotions extends FragmentActivity implements
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						if (position > 2) {
-							return;
-						}
-
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
@@ -137,7 +138,8 @@ public class Promotions extends FragmentActivity implements
 	}
 
 	private void viewAddNewPromotion() {
-		mViewPager.setCurrentItem(3);
+		mSectionsPagerAdapter.setPromotionsMode(1);
+		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
 
 	private void addTabs(final ActionBar actionBar) {

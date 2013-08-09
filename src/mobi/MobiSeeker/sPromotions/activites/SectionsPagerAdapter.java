@@ -9,14 +9,17 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private Context context;
+	private int promotionMode;
 	
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
+		this.promotionMode = 0;
 	}
 
 	@Override
@@ -29,16 +32,26 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 			fragment.setArguments(args);
 			return fragment;
 		case 1:
-			return new PromotedList();
-		case 2:
-			return new SettingsFragment();
-		case 3:
+			if (this.promotionMode == 0) {
+				return new PromotedList();
+			}
+			
 			return new SettingsFragment();
 		default:
 			return new SettingsFragment();
 		}
 	}
 
+	 @Override
+	    public int getItemPosition(Object object)
+	    {
+	        if (object instanceof PromotedList && promotionMode == 1) {
+	            return POSITION_NONE;
+	        }
+	        
+	        return POSITION_UNCHANGED;
+	    }
+	 
 	@Override
 	public int getCount() {
 		return 3;
@@ -56,5 +69,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 			return this.context.getString(R.string.action_settings).toUpperCase(l);
 		}
 		return null;
+	}
+
+	public void setPromotionsMode(int mode) {
+		this.promotionMode = mode;
 	}
 }
