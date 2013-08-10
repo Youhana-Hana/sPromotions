@@ -23,7 +23,6 @@ public class Adapter extends ArrayAdapter<Entry> {
     }
 
     protected Context context;
-
     protected List<Entry> entries;
 
     public Adapter(Context context, int textViewResourceId, List<Entry> entries) {
@@ -45,12 +44,10 @@ public class Adapter extends ArrayAdapter<Entry> {
             viewHolder.text = (TextView) rowView.findViewById(R.id.entrySummary);
             viewHolder.image = (ImageView) rowView.findViewById(R.id.entryLogo);
             viewHolder.delete = (Button) rowView.findViewById(R.id.entryDelete);
-
             rowView.setTag(viewHolder);
         }
 
         ViewHolder viewHolder = (ViewHolder) rowView.getTag();
-
         Entry entry = this.entries.get(position);
 
         viewHolder.title.setText(entry.getTitle());

@@ -58,7 +58,7 @@ public class Repository {
 		}
 
 		for (File file : files) {
-			if (file.getName().compareTo(entry.getTitle()) == 0) {
+			if (file.getName().compareTo(entry.getFileName()) == 0) {
 				file.delete();
 				return;
 			}
@@ -70,7 +70,7 @@ public class Repository {
 	}
 
 	private void createFile(Entry entry, File local) throws IOException {
-		File entryFile = new File(local.getPath(), entry.getTitle());
+		File entryFile = new File(local.getPath(), entry.getFileName());
 
 		if (!entryFile.exists()) {
 			entryFile.createNewFile();

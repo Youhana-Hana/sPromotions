@@ -1,6 +1,7 @@
 package mobi.MobiSeeker.sPromotions.data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.google.gson.Gson;
 
@@ -16,6 +17,7 @@ public class Entry implements Serializable {
 		this.text = text;
 		this.logo = logo;
 		this.imagePath = imagePath;
+		this.time = new Date().getTime();
 	}
 
 	public String getTitle() {
@@ -26,6 +28,14 @@ public class Entry implements Serializable {
 		return toDefault(this.text);
 	}
 
+	public String getFileName() {
+		return String.valueOf(this.time);
+	}
+	
+	public long getTime() {
+		return this.time;
+	}
+	
 	public String getImagePath() {
 		return toDefault(this.imagePath);
 	}
@@ -67,4 +77,5 @@ public class Entry implements Serializable {
 	private String text;
 	private String imagePath;
 	private String logo;
+	private long time;
 }
