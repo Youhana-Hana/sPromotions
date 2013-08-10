@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp" >
+    android:layout_height="wrap_content" >
 
     <TextView
         android:id="@+id/entryTitle"
@@ -11,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
+        android:padding="3dp"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textIsSelectable="false" />
@@ -19,30 +19,36 @@
         android:id="@+id/entrySummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@android:id/title"
-        android:layout_below="@android:id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/entryTitle"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:maxLength="100"
         android:maxLines="2"
+        android:padding="3dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textIsSelectable="false" />
+
+    <Button
+        android:id="@+id/entryDelete"
+        style="@android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_below="@id/entrySummary"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:padding="3dp"
+        android:text="@string/delete" />
 
     <ImageView
         android:id="@+id/entryLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/entrySummary"
+        android:layout_alignBottom="@id/entryDelete"
         android:layout_alignParentRight="true"
-        android:maxHeight="100dp"
+        android:layout_marginRight="5dp"
+        android:maxHeight="180dp"
         android:maxWidth="150dp" />
-
-    <Button
-        android:id="@+id/entryDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:layout_below="@id/entrySummary"
-        android:padding="5dp" />
 
 </RelativeLayout>

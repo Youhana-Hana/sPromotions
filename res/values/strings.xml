@@ -20,5 +20,6 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="add_image">Add image</string>
+    <string name="delete">Delete</string>
     
  </resources>

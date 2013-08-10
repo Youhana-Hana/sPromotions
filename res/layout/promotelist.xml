@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <Button
+        style="@android:attr/borderlessButtonStyle"
         android:id="@+id/entryAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,10 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left|center_vertical"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
         android:drawSelectorOnTop="false"
-        android:layout_above="@id/entryAdd" />
+        android:layout_above="@id/entryAdd"
+        android:divider="@android:drawable/divider_horizontal_bright" />
 
     <TextView
         android:gravity="center_horizontal|center_vertical"
@@ -31,6 +31,4 @@
         android:layout_height="match_parent"
         android:text="@string/emptyPromotelist"
         android:layout_above="@id/entryAdd" />
- 
-   
 </RelativeLayout>

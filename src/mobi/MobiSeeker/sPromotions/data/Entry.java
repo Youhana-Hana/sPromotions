@@ -2,8 +2,6 @@ package mobi.MobiSeeker.sPromotions.data;
 
 import java.io.Serializable;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 
 public class Entry implements Serializable {

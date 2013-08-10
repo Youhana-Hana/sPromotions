@@ -14,22 +14,32 @@ import android.widget.Button;
 
 public class PromotedList extends ListFragment {
 
-    protected Repository repository;
+	protected Repository repository;
 
-    protected Adapter adapter;
-    
-    Button entryAdd = null;
-    
-    public PromotedList() {
-    	this.repository = new Repository("local");
-    }
-    
+	protected Adapter adapter;
+
+	Button entryAdd = null;
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		try {
+			this.repository = new Repository(Promotions.Local);
+			Context context = getActivity().getBaseContext();
+			this.adapter = new Adapter(context, 0,
+					repository.getEntries(context));
+			setListAdapter(this.adapter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(
-				R.layout.promotelist, container, false);
-		
+		View rootView = inflater
+				.inflate(R.layout.promotelist, container, false);
+
 		this.entryAdd = (Button) rootView.findViewById(R.id.entryAdd);
 		this.entryAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -39,7 +49,7 @@ public class PromotedList extends ListFragment {
 				context.sendBroadcast(intent);
 			}
 		});
-		
+
 		return rootView;
 	}
 }
