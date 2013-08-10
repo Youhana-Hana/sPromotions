@@ -1,16 +1,15 @@
 package mobi.MobiSeeker.sPromotions.data;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
 
 public class Repository {
 
@@ -59,7 +58,7 @@ public class Repository {
 		}
 
 		for (File file : files) {
-			if (file.getName().compareTo(entry.getMedicineName()) == 0) {
+			if (file.getName().compareTo(entry.getTitle()) == 0) {
 				file.delete();
 				return;
 			}
@@ -71,7 +70,7 @@ public class Repository {
 	}
 
 	private void createFile(Entry entry, File local) throws IOException {
-		File entryFile = new File(local.getPath(), entry.getMedicineName());
+		File entryFile = new File(local.getPath(), entry.getTitle());
 
 		if (!entryFile.exists()) {
 			entryFile.createNewFile();

@@ -3,53 +3,64 @@ package mobi.MobiSeeker.sPromotions.activites;
 import java.util.Locale;
 
 import mobi.MobiSeeker.sPromotions.R;
-
+import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private Context context;
-	private int promotionMode;
+	private FragmentMode promoteMode;
 	
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
-		this.promotionMode = 0;
+		this.promoteMode = FragmentMode.List;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		switch(position) {
 		case 0:	
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;
+			return getDefaultFragment(position);
 		case 1:
-			if (this.promotionMode == 0) {
-				return new PromotedList();
-			}
-			
-			return new SettingsFragment();
+			return getPromoteFragment();
 		default:
 			return new SettingsFragment();
 		}
 	}
 
+	private Fragment getPromoteFragment() {
+		if (this.promoteMode == FragmentMode.List) {
+			return new PromotedList();
+		}
+		
+		return new NewPromotion();
+	}
+
+	private Fragment getDefaultFragment(int position) {
+		Fragment fragment = new DummySectionFragment();
+		Bundle args = new Bundle();
+		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	 @Override
 	    public int getItemPosition(Object object)
 	    {
-	        if (object instanceof PromotedList && promotionMode == 1) {
-	            return POSITION_NONE;
+	        if (object instanceof PromotedList && this.promoteMode == FragmentMode.List) {
+	        	return POSITION_UNCHANGED;
 	        }
 	        
-	        return POSITION_UNCHANGED;
+	        if (object instanceof NewPromotion && this.promoteMode == FragmentMode.Edit) {
+	        	return POSITION_UNCHANGED;
+	        }
+	        
+	        return POSITION_NONE;
 	    }
 	 
 	@Override
@@ -71,7 +82,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 		return null;
 	}
 
-	public void setPromotionsMode(int mode) {
-		this.promotionMode = mode;
+	public void setPromotionsMode(FragmentMode mode) {
+		this.promoteMode = mode;
 	}
 }

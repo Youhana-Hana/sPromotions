@@ -15,4 +15,10 @@
     <string name="pref_textonly_summary">Accept text only promotions</string>
     <string name="emptyPromotelist">You didn\'t send any promotion yet, What are you waiting for!</string>
     <string name="promote">Add promotion</string>
+    <string name="title">Title</string>
+    <string name="text">Content</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_image">Add image</string>
+    
  </resources>

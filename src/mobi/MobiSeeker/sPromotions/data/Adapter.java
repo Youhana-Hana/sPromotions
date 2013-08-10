@@ -1,27 +1,24 @@
 package mobi.MobiSeeker.sPromotions.data;
 
+import java.util.List;
+
+import mobi.MobiSeeker.sPromotions.R;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import mobi.MobiSeeker.sPromotions.R;
-
-import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
 
 public class Adapter extends ArrayAdapter<Entry> {
 
     static class ViewHolder {
         public TextView title;
-        public TextView timesPerDay;
-        public TextView start;
-        public TextView end;
-        public Button share;
+        public TextView text;
+        public ImageView image;
         public Button delete;
     }
 
@@ -44,13 +41,11 @@ public class Adapter extends ArrayAdapter<Entry> {
 
             rowView = inflater.inflate(R.layout.entry, null);
             ViewHolder viewHolder = new ViewHolder();
- /*         viewHolder.title = (TextView) rowView.findViewById(R.id.title);
-            viewHolder.timesPerDay = (TextView) rowView.findViewById(R.id.timesPerDay);
-            viewHolder.start = (TextView) rowView.findViewById(R.id.start);
-            viewHolder.end = (TextView) rowView.findViewById(R.id.end);
-            viewHolder.share = (Button) rowView.findViewById(R.id.share);
-            viewHolder.delete = (Button) rowView.findViewById(R.id.delete);
-*/
+            viewHolder.title = (TextView) rowView.findViewById(R.id.entryTitle);
+            viewHolder.text = (TextView) rowView.findViewById(R.id.entrySummary);
+            viewHolder.image = (ImageView) rowView.findViewById(R.id.entryLogo);
+            viewHolder.delete = (Button) rowView.findViewById(R.id.entryDelete);
+
             rowView.setTag(viewHolder);
         }
 
@@ -58,33 +53,10 @@ public class Adapter extends ArrayAdapter<Entry> {
 
         Entry entry = this.entries.get(position);
 
-        viewHolder.title.setText(entry.getMedicineName());
-        String timesPreDay = this.getTimesPerDay(entry);
-        viewHolder.timesPerDay.setText(timesPreDay);
-        viewHolder.start.setText(getStartTime(entry));
-        viewHolder.end.setText(getEndTime(entry));
-        viewHolder.share.setTag(entry);
+        viewHolder.title.setText(entry.getTitle());
+        viewHolder.text.setText(entry.getText());
+        viewHolder.image.setImageURI(Uri.parse(entry.getImagePath()));
         viewHolder.delete.setTag(entry);
         return rowView;
     }
-
-    private String getTimesPerDay(Entry entry) {
-        return "";//String.format(Locale.getDefault(), "%d %s", entry.getTimesPerDay(), this.context.getString(R.string.timesPerDay));
-    }
-
-    private String getStartTime(Entry entry) {
-        String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(entry.getStartDate());
-
-        return String.format(Locale.getDefault(), "%s %s",
-                date,
-                entry.getStartTime());
-    }
-
-    private String getEndTime(Entry entry) {
-        String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(entry.getEndDate());
-
-        return String.format(Locale.getDefault(), "%s %s",
-                date,
-                entry.getEndTime());
-    }
-}
+ }

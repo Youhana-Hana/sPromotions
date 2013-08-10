@@ -1,12 +1,9 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
-import java.util.zip.Inflater;
-
 import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,23 +15,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 public class Promotions extends FragmentActivity implements
 		ActionBar.TabListener {
 
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
-
+	public static final String Local = "local";
+	public static final String Remote = "remote";
+	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
+	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";
 	private final int REQ_CODE_PICK_IMAGE = 1;
 
-	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
-
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	ViewPager mViewPager;
+	View imageView = null;
 	BroadcastReceiver receiver;
 	IntentFilter intentFIlter;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,12 +60,24 @@ public class Promotions extends FragmentActivity implements
 		this.intentFIlter = new IntentFilter(
 				Promotions.Add_New_Promotion_Action);
 
+		this.intentFIlter.addAction(Promotions.View_local_Promotions_Action);
+
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				viewAddNewPromotion();
+				handleReceiverIntent(intent);
 			}
 		};
+	}
+
+	protected void handleReceiverIntent(Intent intent) {
+		if (intent.getAction().equalsIgnoreCase(
+				Promotions.Add_New_Promotion_Action)) {
+			this.viewAddNewPromotion();
+		} else if (intent.getAction().equalsIgnoreCase(
+				Promotions.View_local_Promotions_Action)) {
+			this.viewLocalPromotions();
+		}
 	}
 
 	@Override
@@ -85,7 +95,7 @@ public class Promotions extends FragmentActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
+		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.List);
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -97,9 +107,11 @@ public class Promotions extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+		this.viewLocalPromotions();
 	}
 
-	public void pickLogo(View view) {
+	public void pickImage(View view) {
+		this.imageView = view;
 		Intent intent = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
@@ -112,33 +124,51 @@ public class Promotions extends FragmentActivity implements
 
 		switch (requestCode) {
 		case REQ_CODE_PICK_IMAGE:
-
 			if (resultCode != RESULT_OK) {
 				return;
 			}
 
-			ImageView logo = (ImageView) findViewById(R.id.logo);
-			Uri selectedImage = imageReturnedIntent.getData();
-			String[] filePathColumn = { android.provider.MediaStore.Images.Media.DATA };
+			if (this.imageView == null) {
+				return;
+			}
 
-			Cursor cursor = getContentResolver().query(selectedImage,
-					filePathColumn, null, null, null);
+			String imagePath = getImageFromGallery(imageReturnedIntent, (ImageView)this.imageView);
+			this.imageView.setTag(imagePath);
 
-			cursor.moveToFirst();
-
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String imagePath = cursor.getString(columnIndex);
-			cursor.close();
-
-			logo.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+			if (this.imageView.getId() != R.id.logo) {
+				return;
+			}
 
 			Settings settings = new Settings(this);
 			settings.setLogo(imagePath);
 		}
 	}
 
+	private String getImageFromGallery(Intent imageReturnedIntent,
+			ImageView image) {
+		Uri selectedImage = imageReturnedIntent.getData();
+		String[] filePathColumn = { android.provider.MediaStore.Images.Media.DATA };
+
+		Cursor cursor = getContentResolver().query(selectedImage,
+				filePathColumn, null, null, null);
+
+		cursor.moveToFirst();
+
+		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		String imagePath = cursor.getString(columnIndex);
+		cursor.close();
+
+		image.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+		return imagePath;
+	}
+
 	private void viewAddNewPromotion() {
-		mSectionsPagerAdapter.setPromotionsMode(1);
+		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.Edit);
+		mSectionsPagerAdapter.notifyDataSetChanged();
+	}
+
+	private void viewLocalPromotions() {
+		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.List);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
 

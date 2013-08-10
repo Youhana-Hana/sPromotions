@@ -46,6 +46,6 @@
             android:maxHeight="100dp"
             android:src="@drawable/ic_launcher"
             android:layout_alignParentRight="true"
-            android:onClick="pickLogo" />
+            android:onClick="pickImage" />
     </RelativeLayout>
 </LinearLayout>
