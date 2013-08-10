@@ -2,6 +2,7 @@ package mobi.MobiSeeker.sPromotions.activites;
 
 import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.data.Adapter;
+import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.Repository;
 import android.app.ListFragment;
 import android.content.Context;
@@ -15,9 +16,7 @@ import android.widget.Button;
 public class PromotedList extends ListFragment {
 
 	protected Repository repository;
-
 	protected Adapter adapter;
-
 	Button entryAdd = null;
 
 	@Override
@@ -25,13 +24,17 @@ public class PromotedList extends ListFragment {
 		super.onViewCreated(view, savedInstanceState);
 		try {
 			this.repository = new Repository(Promotions.Local);
-			Context context = getActivity().getBaseContext();
-			this.adapter = new Adapter(context, 0,
-					repository.getEntries(context));
-			setListAdapter(this.adapter);
+			PopulateList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void PopulateList() throws Exception {
+		Context context = getActivity().getBaseContext();
+		this.adapter = new Adapter(context, 0,
+				repository.getEntries(context));
+		setListAdapter(this.adapter);
 	}
 
 	@Override
@@ -51,5 +54,15 @@ public class PromotedList extends ListFragment {
 		});
 
 		return rootView;
+	}
+
+	public void delete(Entry entry) {
+		try {
+			Context context = getActivity().getBaseContext();
+			this.repository.delete(context, entry);
+			PopulateList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

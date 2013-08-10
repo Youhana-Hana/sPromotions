@@ -1,9 +1,11 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
 import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,6 +26,7 @@ public class Promotions extends FragmentActivity implements
 	public static final String Local = "local";
 	public static final String Remote = "remote";
 	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
+	public static String Delete_Local_Promotion_Action = "mobi.MobiSeeker.sPromotions.DELETE_LOCAL_PROMOTION";
 	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";
 	private final int REQ_CODE_PICK_IMAGE = 1;
 
@@ -32,7 +35,7 @@ public class Promotions extends FragmentActivity implements
 	View imageView = null;
 	BroadcastReceiver receiver;
 	IntentFilter intentFIlter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,6 +120,17 @@ public class Promotions extends FragmentActivity implements
 		startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
 	}
 
+	public void deleteEntry(View view) {
+		Entry entry = (Entry) view.getTag();
+		if (entry == null) {
+			return;
+		}
+
+		PromotedList promotedList = (PromotedList) mSectionsPagerAdapter
+				.instantiateItem(mViewPager, 1);
+		promotedList.delete(entry);
+	}
+
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 
@@ -132,7 +146,8 @@ public class Promotions extends FragmentActivity implements
 				return;
 			}
 
-			String imagePath = getImageFromGallery(imageReturnedIntent, (ImageView)this.imageView);
+			String imagePath = getImageFromGallery(imageReturnedIntent,
+					(ImageView) this.imageView);
 			this.imageView.setTag(imagePath);
 
 			if (this.imageView.getId() != R.id.logo) {
