@@ -2,21 +2,23 @@ package mobi.MobiSeeker.sPromotions.data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import com.google.gson.Gson;
 
 public class Entry implements Serializable {
 
-
 	private static final long serialVersionUID = 1L;
 
-	public Entry(String title, String text, String logo,
-			String imagePath) {
+	public Entry(String title, String text, String logo, String imagePath,
+			String nodeName) {
 
 		this.title = title;
 		this.text = text;
 		this.logo = logo;
 		this.imagePath = imagePath;
+		this.nodeName = nodeName;
 		this.time = new Date().getTime();
 	}
 
@@ -29,13 +31,13 @@ public class Entry implements Serializable {
 	}
 
 	public String getFileName() {
-		return String.valueOf(this.time);
+		return String.format(Locale.getDefault(), "%s_%d.entry", this.nodeName, this.time);
 	}
-	
+
 	public long getTime() {
 		return this.time;
 	}
-	
+
 	public String getImagePath() {
 		return toDefault(this.imagePath);
 	}
@@ -48,10 +50,10 @@ public class Entry implements Serializable {
 		if (value == null) {
 			return "";
 		}
-		
+
 		return value;
 	}
-	
+
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);
@@ -77,5 +79,6 @@ public class Entry implements Serializable {
 	private String text;
 	private String imagePath;
 	private String logo;
+	private String nodeName;
 	private long time;
 }

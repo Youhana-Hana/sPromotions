@@ -36,17 +36,19 @@ public class Promotions extends FragmentActivity implements
 	View imageView = null;
 	BroadcastReceiver receiver;
 	IntentFilter intentFIlter;
-
+	String nodeName;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.promotions);
 
+		this.nodeName = "NodeName"; // need to get this from chrod nodeManager
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(),
-				this);
+				this, this.nodeName);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);

@@ -14,12 +14,14 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 	private Context context;
 	private FragmentMode promoteMode;
 	private FragmentMode promotionMode;
+	private String nodeName;
 
-	public SectionsPagerAdapter(FragmentManager fm, Context context) {
+	public SectionsPagerAdapter(FragmentManager fm, Context context, String nodeName) {
 		super(fm);
 		this.context = context;
 		this.promoteMode = FragmentMode.List;
 		this.promotionMode  = FragmentMode.List;
+		this.nodeName = nodeName;
 	}
 
 	@Override
@@ -47,7 +49,9 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 			return new PromotedList();
 		}
 		
-		return new NewPromotion();
+		NewPromotion newPromotion = new NewPromotion();
+		newPromotion.setNodeName(this.nodeName);
+		return newPromotion;
 	}
 	
 		 @Override

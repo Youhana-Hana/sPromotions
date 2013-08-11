@@ -22,8 +22,12 @@ public class NewPromotion extends Fragment {
     EditText  entryTitle = null;
     EditText  entrySummary = null;
     ImageView  entryImage = null;
-    
     Entry entryFromIntent = null;
+    String nodeName = null;
+  
+    public void setNodeName(String nodeName) {
+    	this.nodeName = nodeName;
+    }
     
  	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,7 +106,7 @@ public class NewPromotion extends Fragment {
 		String  logo = new mobi.MobiSeeker.sPromotions.data.Settings(context).getLogo();
 		
 		if (this.entryFromIntent == null) {
-			return new Entry(title, content, logo, image);
+			return new Entry(title, content, logo, image, this.nodeName);
 		}
 		
 		this.entryFromIntent.setTitle(title);
