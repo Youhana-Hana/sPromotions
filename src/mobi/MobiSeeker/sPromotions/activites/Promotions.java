@@ -66,6 +66,7 @@ public class Promotions extends FragmentActivity implements
 
 		this.intentFIlter.addAction(Promotions.View_local_Promotions_Action);
 		this.intentFIlter.addAction(Promotions.View_Promotion_Action);
+		this.intentFIlter.addAction(Promotions.View_Remote_Promotion_Action);
 
 		receiver = new BroadcastReceiver() {
 			@Override
@@ -86,7 +87,26 @@ public class Promotions extends FragmentActivity implements
 		} else if (intent.getAction().equalsIgnoreCase(
 				Promotions.View_local_Promotions_Action)) {
 			this.viewLocalPromotions();
+		} else if (intent.getAction().equalsIgnoreCase(
+				Promotions.View_Remote_Promotion_Action)) {
+			setIntent(intent);
+			this.viewRemotePromotion();
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mSectionsPagerAdapter.getPromoteMode() != FragmentMode.List) {
+			this.viewLocalPromotions();
+			return;	
+		}
+		
+		if (mSectionsPagerAdapter.getPromotionMode() != FragmentMode.List) {
+			this.viewRemotePromotions();
+			return;	
+		}
+		
+		super.onBackPressed();
 	}
 
 	@Override
@@ -105,6 +125,7 @@ public class Promotions extends FragmentActivity implements
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.List);
+		mSectionsPagerAdapter.setRemotePromotionsMode(FragmentMode.List);
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -117,6 +138,7 @@ public class Promotions extends FragmentActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		this.viewLocalPromotions();
+		this.viewRemotePromotions();
 	}
 
 	public void pickImage(View view) {
@@ -203,7 +225,17 @@ public class Promotions extends FragmentActivity implements
 		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.List);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
-
+	
+	private void viewRemotePromotion() {
+		mSectionsPagerAdapter.setRemotePromotionsMode(FragmentMode.View);
+		mSectionsPagerAdapter.notifyDataSetChanged();
+	}
+	
+	private void viewRemotePromotions() {
+		mSectionsPagerAdapter.setRemotePromotionsMode(FragmentMode.List);
+		mSectionsPagerAdapter.notifyDataSetChanged();
+	}
+	
 	private void addTabs(final ActionBar actionBar) {
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()

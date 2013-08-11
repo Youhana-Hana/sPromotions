@@ -50,9 +50,10 @@
         android:layout_alignBottom="@id/entryDelete"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
-        android:maxHeight="100dp"
-        android:maxWidth="75dp"
+        android:maxHeight="@dimen/small_image_height"
+        android:maxWidth="@dimen/small_image_with"
         android:adjustViewBounds="true"
-        android:focusable="false" />
+        android:focusable="false"
+        android:contentDescription="@string/promotionImage" />
 
 </RelativeLayout>

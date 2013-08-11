@@ -14,7 +14,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 	private Context context;
 	private FragmentMode promoteMode;
 	private FragmentMode promotionMode;
-	
+
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
@@ -39,7 +39,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 			return new PromotionsList();
 		}
 		
-		return new PromotionsList();
+		return new Promotion();
 	}
 
 	private Fragment getPromoteFragment() {
@@ -58,6 +58,18 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 	        }
 	        
 	        if (object instanceof NewPromotion && this.promoteMode == FragmentMode.Edit) {
+	        	return POSITION_UNCHANGED;
+	        }
+	        
+	        if (object instanceof PromotionsList && this.promotionMode == FragmentMode.List) {
+	        	return POSITION_UNCHANGED;
+	        }
+	        
+	        if (object instanceof Promotion && this.promotionMode == FragmentMode.View) {
+	        	return POSITION_UNCHANGED;
+	        }
+	        
+	        if (object instanceof SettingsFragment) {
 	        	return POSITION_UNCHANGED;
 	        }
 	        
@@ -85,5 +97,17 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	public void setPromotionsMode(FragmentMode mode) {
 		this.promoteMode = mode;
+	}
+	
+	public void setRemotePromotionsMode(FragmentMode mode) {
+		this.promotionMode = mode;
+	}
+	
+	public FragmentMode getPromoteMode() {
+		return promoteMode;
+	}
+
+	public FragmentMode getPromotionMode() {
+		return promotionMode;
 	}
 }

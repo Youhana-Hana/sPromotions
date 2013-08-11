@@ -12,8 +12,8 @@
         android:layout_marginLeft="2dp"
         android:adjustViewBounds="true"
         android:focusable="false"
-        android:maxHeight="50dp"
-        android:maxWidth="75dp" />
+        android:maxHeight="@dimen/small_image_height"
+        android:maxWidth="@dimen/small_image_with" />
 
     <TextView
         android:id="@+id/entryTitle"
@@ -63,8 +63,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/promotionImage"
         android:focusable="false"
-        android:maxHeight="75dp"
-        android:maxWidth="100dp" />
+        android:maxHeight="@dimen/small_image_height"
+        android:maxWidth="@dimen/small_image_with" />
 
 </RelativeLayout>

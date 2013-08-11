@@ -23,4 +23,5 @@
     <string name="add_image">Add image</string>
     <string name="delete">Delete</string>
     <string name="clear">Clear</string>
+    <string name="promotionImage">Promotion image</string>
  </resources>
