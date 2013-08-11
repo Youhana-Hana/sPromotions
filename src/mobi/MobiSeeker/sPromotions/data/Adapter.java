@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +20,7 @@ public class Adapter extends ArrayAdapter<Entry> {
         public TextView text;
         public ImageView logo;
         public ImageView image;
-        public Button delete;
+        public ImageView delete;
     }
 
     protected Context context;
@@ -46,7 +46,7 @@ public class Adapter extends ArrayAdapter<Entry> {
             viewHolder.text = (TextView) rowView.findViewById(R.id.entrySummary);
             viewHolder.logo = (ImageView) rowView.findViewById(R.id.entryLogo);
             viewHolder.image = (ImageView) rowView.findViewById(R.id.entryImage);
-            viewHolder.delete = (Button) rowView.findViewById(R.id.entryDelete);
+            viewHolder.delete = (ImageView) rowView.findViewById(R.id.entryDelete);
             rowView.setTag(viewHolder);
         }
 

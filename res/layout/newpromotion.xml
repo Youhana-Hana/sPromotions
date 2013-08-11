@@ -83,18 +83,20 @@
         <Button
             android:id="@+id/entrySaveCancel"
             style="@android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@android:string/cancel" />
+            android:background="@drawable/button"
+            android:text="@android:string/cancel"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/entrySave"
             style="@android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save" />
+            android:background="@drawable/button"
+            android:text="@string/save"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import com.google.gson.Gson;
 
 public class Entry implements Serializable {
