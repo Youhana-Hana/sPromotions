@@ -25,6 +25,7 @@ public class Promotions extends FragmentActivity implements
 	public static final String Local = "local";
 	public static final String Remote = "remote";
 	public static final String View_Promotion_Action = "mobi.MobiSeeker.sPromotions.VIEW_PROMOTION";
+	public static final String View_Remote_Promotion_Action = "mobi.MobiSeeker.sPromotions.VIEW_REMOTE_PROMOTION";
 	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
 	public static String Delete_Local_Promotion_Action = "mobi.MobiSeeker.sPromotions.DELETE_LOCAL_PROMOTION";
 	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";

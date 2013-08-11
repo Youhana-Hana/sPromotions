@@ -88,15 +88,7 @@ public class Repository {
 
 		ArrayList<Entry> entries = new ArrayList<Entry>();
 
-		File local = getLocalFolder(context);
-		if (!local.exists()) {
-			return entries;
-		}
-
-		File[] files = local.listFiles();
-		if (files == null) {
-			return entries;
-		}
+		File[] files = getEntriesFile(context);
 
 		for (File file : files) {
 			try {
@@ -112,6 +104,19 @@ public class Repository {
 		return entries;
 	}
 
+	private File[] getEntriesFile(Context context) {
+		File local = getLocalFolder(context);
+		if (!local.exists()) {
+			return null;
+		}
+
+		File[] files = local.listFiles();
+		if (files == null) {
+			return null;
+		}
+		return files;
+	}
+
 	private Entry getEntryFromFile(File file) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(file);
 		byte[] buffer = new byte[fileInputStream.available()];
@@ -120,5 +125,17 @@ public class Repository {
 
 		String content = new String(buffer, 0, length, "UTF-8");
 		return new Gson().fromJson(content, Entry.class);
+	}
+
+	public void clear(Context context) {
+		File[] files = getEntriesFile(context);
+		
+		if (files == null) {
+			return;
+		}
+		
+		for (File file : files) {
+			file.delete();
+		}
 	}
 }

@@ -18,16 +18,18 @@ public class Adapter extends ArrayAdapter<Entry> {
     static class ViewHolder {
         public TextView title;
         public TextView text;
+        public ImageView logo;
         public ImageView image;
         public Button delete;
     }
 
     protected Context context;
     protected List<Entry> entries;
-
-    public Adapter(Context context, int textViewResourceId, List<Entry> entries) {
-        super(context, textViewResourceId, entries);
+    int resourceId;
+    public Adapter(Context context, int resourceId, List<Entry> entries) {
+        super(context, resourceId, entries);
         this.context = context;
+        this.resourceId = resourceId;
         this.entries = entries;
     }
 
@@ -38,11 +40,12 @@ public class Adapter extends ArrayAdapter<Entry> {
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            rowView = inflater.inflate(R.layout.entry, null);
+            rowView = inflater.inflate(resourceId, null);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) rowView.findViewById(R.id.entryTitle);
             viewHolder.text = (TextView) rowView.findViewById(R.id.entrySummary);
-            viewHolder.image = (ImageView) rowView.findViewById(R.id.entryLogo);
+            viewHolder.logo = (ImageView) rowView.findViewById(R.id.entryLogo);
+            viewHolder.image = (ImageView) rowView.findViewById(R.id.entryImage);
             viewHolder.delete = (Button) rowView.findViewById(R.id.entryDelete);
             rowView.setTag(viewHolder);
         }
@@ -52,6 +55,11 @@ public class Adapter extends ArrayAdapter<Entry> {
 
         viewHolder.title.setText(entry.getTitle());
         viewHolder.text.setText(entry.getText());
+        
+        if (viewHolder.logo != null) {
+        	viewHolder.logo.setImageURI(Uri.parse(entry.getLogo()));
+        }
+        
         viewHolder.image.setImageURI(Uri.parse(entry.getImagePath()));
         viewHolder.delete.setTag(entry);
         return rowView;

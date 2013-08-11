@@ -14,17 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class PromotedList extends ListFragment {
+public class PromotionsList extends ListFragment {
 
 	protected Repository repository;
 	protected Adapter adapter;
-	Button entryAdd = null;
+	Button clear = null;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		try {
-			this.repository = new Repository(Promotions.Local);
+			this.repository = new Repository(Promotions.Remote);
 			PopulateList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,24 +35,33 @@ public class PromotedList extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater
-				.inflate(R.layout.promotelist, container, false);
+				.inflate(R.layout.promotions_list, container, false);
 
-		this.entryAdd = (Button) rootView.findViewById(R.id.entryAdd);
-		this.entryAdd.setOnClickListener(new View.OnClickListener() {
+		this.clear = (Button) rootView.findViewById(R.id.clear);
+		this.clear.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Brodcast(null, Promotions.Add_New_Promotion_Action);
+				clear();
 			}
 		});
 
 		return rootView;
 	}
 
+	protected void clear() {
+		try {
+			this.repository.clear(getActivity().getBaseContext());
+			PopulateList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Entry entry = adapter.getItem(position);
-		Brodcast(entry, Promotions.View_Promotion_Action);
+		Brodcast(entry, Promotions.View_Remote_Promotion_Action);
 	}
 
 	private void Brodcast(Entry entry, String action) {
@@ -65,19 +74,9 @@ public class PromotedList extends ListFragment {
 		context.sendBroadcast(intent);
 	}
 
-	public void delete(Entry entry) {
-		try {
-			Context context = getActivity().getBaseContext();
-			this.repository.delete(context, entry);
-			PopulateList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private void PopulateList() throws Exception {
 		Context context = getActivity().getBaseContext();
-		this.adapter = new Adapter(context, R.layout.entry,
+		this.adapter = new Adapter(context, R.layout.remote_entry,
 				repository.getEntries(context));
 		setListAdapter(this.adapter);
 	}

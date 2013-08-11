@@ -41,13 +41,13 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
-                android:gravity="top"
                 android:id="@+id/editText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="22dp"
                 android:ems="10"
+                android:gravity="top"
                 android:imeOptions="actionNext"
                 android:inputType="textMultiLine"
                 android:lines="5"
@@ -56,15 +56,16 @@
 
             <ImageButton
                 android:id="@+id/image"
-                android:layout_width="180dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:maxHeight="150dp"
-                android:maxWidth="180dp"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/add_image"
-                android:src="@android:drawable/ic_menu_gallery"
-                android:onClick="pickImage" />
+                android:maxHeight="150dp"
+                android:maxWidth="200dp"
+                android:onClick="pickImage"
+                android:src="@android:drawable/ic_menu_gallery" />
         </LinearLayout>
     </ScrollView>
 
@@ -80,19 +81,19 @@
         android:padding="10dp" >
 
         <Button
+            android:id="@+id/entrySaveCancel"
             style="@android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/entrySaveCancel"
             android:text="@android:string/cancel" />
 
         <Button
+            android:id="@+id/entrySave"
             style="@android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/entrySave"
             android:text="@string/save" />
     </LinearLayout>
 

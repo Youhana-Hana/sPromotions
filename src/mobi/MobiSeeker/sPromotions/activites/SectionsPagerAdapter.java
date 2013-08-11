@@ -7,30 +7,39 @@ import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private Context context;
 	private FragmentMode promoteMode;
+	private FragmentMode promotionMode;
 	
 	public SectionsPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
 		this.promoteMode = FragmentMode.List;
+		this.promotionMode  = FragmentMode.List;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		switch(position) {
 		case 0:	
-			return getDefaultFragment(position);
+			return getPromotions();
 		case 1:
 			return getPromoteFragment();
 		default:
 			return new SettingsFragment();
 		}
+	}
+
+	private Fragment getPromotions() {
+		if (this.promotionMode == FragmentMode.List) {
+			return new PromotionsList();
+		}
+		
+		return new PromotionsList();
 	}
 
 	private Fragment getPromoteFragment() {
@@ -40,16 +49,8 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 		
 		return new NewPromotion();
 	}
-
-	private Fragment getDefaultFragment(int position) {
-		Fragment fragment = new DummySectionFragment();
-		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-		fragment.setArguments(args);
-		return fragment;
-	}
-
-	 @Override
+	
+		 @Override
 	    public int getItemPosition(Object object)
 	    {
 	        if (object instanceof PromotedList && this.promoteMode == FragmentMode.List) {

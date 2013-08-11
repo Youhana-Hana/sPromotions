@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/entryLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/entryTitle"
+        android:layout_marginLeft="2dp"
+        android:adjustViewBounds="true"
+        android:focusable="false"
+        android:maxHeight="75dp"
+        android:maxWidth="100dp" />
 
     <TextView
         android:id="@+id/entryTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/entryLogo"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:padding="3dp"
@@ -19,15 +31,15 @@
         android:id="@+id/entrySummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/entryTitle"
+        android:layout_toRightOf="@id/entryLogo"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:maxLength="100"
         android:maxLines="2"
         android:padding="3dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textIsSelectable="false"/>
+        android:textIsSelectable="false" />
 
     <Button
         android:id="@+id/entryDelete"
@@ -35,13 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="false"
-        android:layout_below="@id/entrySummary"
+        android:layout_below="@id/entryLogo"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="3dp"
-        android:padding="3dp"
-        android:text="@string/delete"
+        android:focusable="false"
         android:onClick="deleteEntry"
-        android:focusable="false"/>
+        android:padding="5dp"
+        android:text="@string/delete" />
 
     <ImageView
         android:id="@+id/entryImage"
@@ -50,9 +62,9 @@
         android:layout_alignBottom="@id/entryDelete"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
-        android:maxHeight="100dp"
-        android:maxWidth="75dp"
         android:adjustViewBounds="true"
-        android:focusable="false" />
+        android:focusable="false"
+        android:maxHeight="75dp"
+        android:maxWidth="100dp" />
 
 </RelativeLayout>
