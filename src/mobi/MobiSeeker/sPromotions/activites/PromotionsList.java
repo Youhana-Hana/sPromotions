@@ -64,6 +64,16 @@ public class PromotionsList extends ListFragment {
 		Brodcast(entry, Promotions.View_Remote_Promotion_Action);
 	}
 
+	public void delete(Entry entry) {
+		try {
+			Context context = getActivity().getBaseContext();
+			this.repository.delete(context, entry);
+			PopulateList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void Brodcast(Entry entry, String action) {
 		Context context = getActivity().getBaseContext();
 		Intent intent = new Intent(action);

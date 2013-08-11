@@ -137,6 +137,17 @@ public class Promotions extends FragmentActivity implements
 		promotedList.delete(entry);
 	}
 
+	public void deleteRemoteEntry(View view) {
+		Entry entry = (Entry) view.getTag();
+		if (entry == null) {
+			return;
+		}
+
+		PromotionsList promotionsList = (PromotionsList) mSectionsPagerAdapter
+				.instantiateItem(mViewPager, 0);
+		promotionsList.delete(entry);
+	}
+	
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 
