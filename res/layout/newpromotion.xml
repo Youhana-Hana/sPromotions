@@ -87,7 +87,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button"
             android:text="@android:string/cancel"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_margin="10dp" />
 
         <Button
             android:id="@+id/entrySave"

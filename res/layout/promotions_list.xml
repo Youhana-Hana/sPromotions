@@ -5,18 +5,16 @@
     android:orientation="vertical" 
     android:clickable="false">
 
-    <Button
+    <ImageView
         style="@android:attr/borderlessButtonStyle"
         android:id="@+id/clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/clear"
         android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:focusable="false"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button"/>
+        android:src="@drawable/clear"/>
     
     <ListView
         android:id="@android:id/list"

@@ -44,7 +44,7 @@
             android:layout_height="100dp"
             android:maxWidth="150dp"
             android:maxHeight="100dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@android:drawable/ic_menu_gallery"
             android:layout_alignParentRight="true"
             android:onClick="pickImage"
             android:contentDescription="@string/add_image" />

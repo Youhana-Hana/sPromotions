@@ -29,31 +29,26 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textIsSelectable="false"/>
 
-    <ImageView
+      <ImageView 
         android:id="@+id/entryDelete"
         style="@android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:layout_below="@id/entrySummary"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
         android:focusable="false"
-        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_alignTop="@id/entrySummary"
         android:onClick="deleteEntry"
         android:background="@drawable/delete" />
-    
+     
     <ImageView
         android:id="@+id/entryImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/entryDelete"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:maxHeight="@dimen/large_image_height"
-        android:maxWidth="@dimen/large_image_with"
+        android:layout_toLeftOf="@id/entryDelete"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/promotionImage"
         android:focusable="false"
-        android:contentDescription="@string/promotionImage" />
-
+        android:maxHeight="@dimen/large_image_height"
+        android:maxWidth="@dimen/large_image_with" />
 </RelativeLayout>

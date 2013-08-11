@@ -12,13 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class PromotionsList extends ListFragment {
 
 	protected Repository repository;
 	protected Adapter adapter;
-	Button clear = null;
+	ImageView clear = null;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class PromotionsList extends ListFragment {
 		View rootView = inflater
 				.inflate(R.layout.promotions_list, container, false);
 
-		this.clear = (Button) rootView.findViewById(R.id.clear);
+		this.clear = (ImageView) rootView.findViewById(R.id.clear);
 		this.clear.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
