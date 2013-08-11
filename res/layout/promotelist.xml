@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:clickable="false">
 
     <Button
         style="@android:attr/borderlessButtonStyle"
@@ -12,16 +13,17 @@
         android:layout_gravity="left"
         android:text="@string/promote"
         android:padding="10dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:focusable="false"/>
     
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left|center_vertical"
-        android:drawSelectorOnTop="false"
         android:layout_above="@id/entryAdd"
-        android:divider="@android:drawable/divider_horizontal_bright" />
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:drawSelectorOnTop="false"/>
 
     <TextView
         android:gravity="center_horizontal|center_vertical"

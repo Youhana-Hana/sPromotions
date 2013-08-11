@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class PromotedList extends ListFragment {
 
@@ -30,13 +31,6 @@ public class PromotedList extends ListFragment {
 		}
 	}
 
-	private void PopulateList() throws Exception {
-		Context context = getActivity().getBaseContext();
-		this.adapter = new Adapter(context, 0,
-				repository.getEntries(context));
-		setListAdapter(this.adapter);
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,13 +41,28 @@ public class PromotedList extends ListFragment {
 		this.entryAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Context context = getActivity().getBaseContext();
-				Intent intent = new Intent(Promotions.Add_New_Promotion_Action);
-				context.sendBroadcast(intent);
+				Brodcast(null, Promotions.Add_New_Promotion_Action);
 			}
 		});
 
 		return rootView;
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Entry entry = adapter.getItem(position);
+		Brodcast(entry, Promotions.View_Promotion_Action);
+	}
+
+	private void Brodcast(Entry entry, String action) {
+		Context context = getActivity().getBaseContext();
+		Intent intent = new Intent(action);
+		if(entry != null) {
+			intent.putExtra("entry", entry);
+		}
+		
+		context.sendBroadcast(intent);
 	}
 
 	public void delete(Entry entry) {
@@ -64,5 +73,12 @@ public class PromotedList extends ListFragment {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void PopulateList() throws Exception {
+		Context context = getActivity().getBaseContext();
+		this.adapter = new Adapter(context, 0,
+				repository.getEntries(context));
+		setListAdapter(this.adapter);
 	}
 }

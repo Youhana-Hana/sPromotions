@@ -5,7 +5,6 @@ import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +24,7 @@ public class Promotions extends FragmentActivity implements
 
 	public static final String Local = "local";
 	public static final String Remote = "remote";
+	public static final String View_Promotion_Action = "mobi.MobiSeeker.sPromotions.VIEW_PROMOTION";
 	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
 	public static String Delete_Local_Promotion_Action = "mobi.MobiSeeker.sPromotions.DELETE_LOCAL_PROMOTION";
 	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";
@@ -64,6 +64,7 @@ public class Promotions extends FragmentActivity implements
 				Promotions.Add_New_Promotion_Action);
 
 		this.intentFIlter.addAction(Promotions.View_local_Promotions_Action);
+		this.intentFIlter.addAction(Promotions.View_Promotion_Action);
 
 		receiver = new BroadcastReceiver() {
 			@Override
@@ -76,7 +77,11 @@ public class Promotions extends FragmentActivity implements
 	protected void handleReceiverIntent(Intent intent) {
 		if (intent.getAction().equalsIgnoreCase(
 				Promotions.Add_New_Promotion_Action)) {
-			this.viewAddNewPromotion();
+			this.addViewPromotion();
+		} else if (intent.getAction().equalsIgnoreCase(
+				Promotions.View_Promotion_Action)) {
+			setIntent(intent);
+			this.addViewPromotion();
 		} else if (intent.getAction().equalsIgnoreCase(
 				Promotions.View_local_Promotions_Action)) {
 			this.viewLocalPromotions();
@@ -177,7 +182,7 @@ public class Promotions extends FragmentActivity implements
 		return imagePath;
 	}
 
-	private void viewAddNewPromotion() {
+	private void addViewPromotion() {
 		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.Edit);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}

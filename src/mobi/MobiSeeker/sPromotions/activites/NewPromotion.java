@@ -6,6 +6,7 @@ import mobi.MobiSeeker.sPromotions.data.Repository;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ public class NewPromotion extends Fragment {
     EditText  entryTitle = null;
     EditText  entrySummary = null;
     ImageView  entryImage = null;
+    
+    Entry entryFromIntent = null;
     
  	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,10 +53,31 @@ public class NewPromotion extends Fragment {
 			}
 		});
 		
+		this.SetVauesFromIntent();
+		
 		return rootView;
 	}
 	
- 	void save() {
+ 	private void SetVauesFromIntent() {
+ 		Intent intent = getActivity().getIntent();
+ 		Entry entry = (Entry)intent.getSerializableExtra("entry");
+ 		if(entry == null) {
+ 			return;
+ 		}
+ 		
+ 		this.entryFromIntent = entry;
+ 		
+ 		this.entryTitle.setText(entry.getTitle());
+ 		this.entrySummary.setText(entry.getText());
+ 		String imageUrl = entry.getImagePath();
+ 		if (imageUrl.isEmpty() || imageUrl == null) {
+ 			return;
+ 		}
+ 		
+ 		this.entryImage.setImageURI(Uri.parse(entry.getImagePath()));
+ 	}
+
+	void save() {
  		Repository repository = new Repository(Promotions.Local);
  		Context context = getActivity().getBaseContext();
  		try {
@@ -77,7 +101,15 @@ public class NewPromotion extends Fragment {
 		
 		String  logo = new mobi.MobiSeeker.sPromotions.data.Settings(context).getLogo();
 		
-		return new Entry(title, content, logo, image);
+		if (this.entryFromIntent == null) {
+			return new Entry(title, content, logo, image);
+		}
+		
+		this.entryFromIntent.setTitle(title);
+		this.entryFromIntent.setText(content);
+		this.entryFromIntent.setLogo(logo);
+		this.entryFromIntent.setImagePath(image);
+		return this.entryFromIntent; 
 	}
 
 	void goHome() {

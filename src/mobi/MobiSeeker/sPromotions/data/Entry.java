@@ -57,8 +57,8 @@ public class Entry implements Serializable {
 		return new Gson().toJson(this);
 	}
 
-	public void setMedicineName(String medicineName) {
-		this.title = medicineName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public void setText(String text) {
