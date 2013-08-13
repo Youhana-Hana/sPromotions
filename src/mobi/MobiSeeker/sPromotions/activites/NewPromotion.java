@@ -3,8 +3,10 @@ package mobi.MobiSeeker.sPromotions.activites;
 import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.Repository;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,8 +48,13 @@ public class NewPromotion extends Fragment {
 		this.entrySave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				save();
-				goHome();
+				
+				if (entryTitle.getText().toString().trim().isEmpty() || entrySummary.getText().toString().trim().isEmpty()) {
+					warn();
+				} else {
+					save();
+					goHome();
+				}
 			}
 		});
 
@@ -63,6 +70,17 @@ public class NewPromotion extends Fragment {
 		return rootView;
 	}
 
+	public void warn() {
+     	AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle(this.getResources().getString(R.string.add_promotion_error_alert_title));
+        alertDialog.setMessage(this.getResources().getString(R.string.add_promotion_error_alert_text));
+        alertDialog.setPositiveButton(this.getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        alertDialog.create().show();
+    }
 	private void SetVauesFromIntent() {
 		Intent intent = getActivity().getIntent();
 		Entry entry = (Entry) intent.getSerializableExtra("entry");
