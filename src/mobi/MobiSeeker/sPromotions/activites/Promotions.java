@@ -43,14 +43,15 @@ public class Promotions extends BaseActivity implements
 	public static String Add_New_Promotion_Action = "mobi.MobiSeeker.sPromotions.ADD_NEW_PROMOTION";
 	public static String Delete_Local_Promotion_Action = "mobi.MobiSeeker.sPromotions.DELETE_LOCAL_PROMOTION";
 	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";
-	private final int REQ_CODE_PICK_IMAGE = 1;
+	private final int REQ_CODE_PICK_IMAGE_SETTINS = 1;
+	private final int REQ_CODE_PICK_IMAGE = 2;
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
-	View imageView = null;
 	BroadcastReceiver receiver;
 	IntentFilter intentFIlter;
 	String nodeName;
+
 	
 	protected Repository repository;
 
@@ -60,6 +61,7 @@ public class Promotions extends BaseActivity implements
 	
 	ServiceManger manger;
 	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,14 +127,14 @@ public class Promotions extends BaseActivity implements
 	public void onBackPressed() {
 		if (mSectionsPagerAdapter.getPromoteMode() != FragmentMode.List) {
 			this.viewLocalPromotions();
-			return;	
+			return;
 		}
-		
+
 		if (mSectionsPagerAdapter.getPromotionMode() != FragmentMode.List) {
 			this.viewRemotePromotions();
-			return;	
+			return;
 		}
-		
+
 		super.onBackPressed();
 	}
 
@@ -168,13 +170,6 @@ public class Promotions extends BaseActivity implements
 		this.viewRemotePromotions();
 	}
 
-	public void pickImage(View view) {
-		this.imageView = view;
-		Intent intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
-	}
-
 	public void deleteEntry(View view) {
 		Entry entry = (Entry) view.getTag();
 		if (entry == null) {
@@ -196,7 +191,22 @@ public class Promotions extends BaseActivity implements
 				.instantiateItem(mViewPager, 0);
 		promotionsList.delete(entry);
 	}
-	
+
+	public void pickLogo(View view) {
+		this.pickImageFromGallery(REQ_CODE_PICK_IMAGE_SETTINS);
+	}
+
+	public void pickImage(View view) {
+		this.pickImageFromGallery(REQ_CODE_PICK_IMAGE);
+	}
+
+	private void pickImageFromGallery(int requestCode) {
+		Intent intent = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+		startActivityForResult(intent, requestCode);
+	}
+
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 
@@ -204,23 +214,32 @@ public class Promotions extends BaseActivity implements
 
 		switch (requestCode) {
 		case REQ_CODE_PICK_IMAGE:
+		case REQ_CODE_PICK_IMAGE_SETTINS:
 			if (resultCode != RESULT_OK) {
 				return;
 			}
 
-			if( imageReturnedIntent == null) {
-				return;
-			}
-			
-			if (this.imageView == null) {
+			if (imageReturnedIntent == null) {
 				return;
 			}
 
-			String imagePath = getImageFromGallery(imageReturnedIntent,
-					(ImageView) this.imageView);
-			this.imageView.setTag(imagePath);
+			ImageView image = null;
 
-			if (this.imageView.getId() != R.id.logo) {
+			if (requestCode == REQ_CODE_PICK_IMAGE) {
+				image = (ImageView) findViewById(R.id.image);
+			} else {
+				image = (ImageView) findViewById(R.id.logo);
+			}
+
+			if (image == null) {
+				return;
+			}
+
+			String imagePath = getImageFromGallery(imageReturnedIntent, image);
+
+			image.setTag(imagePath);
+
+			if (requestCode == REQ_CODE_PICK_IMAGE) {
 				return;
 			}
 
@@ -231,7 +250,9 @@ public class Promotions extends BaseActivity implements
 
 	private String getImageFromGallery(Intent imageReturnedIntent,
 			ImageView image) {
+
 		Uri selectedImage = imageReturnedIntent.getData();
+
 		String[] filePathColumn = { android.provider.MediaStore.Images.Media.DATA };
 
 		Cursor cursor = getContentResolver().query(selectedImage,
@@ -256,17 +277,17 @@ public class Promotions extends BaseActivity implements
 		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.List);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
-	
+
 	private void viewRemotePromotion() {
 		mSectionsPagerAdapter.setRemotePromotionsMode(FragmentMode.View);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
-	
+
 	private void viewRemotePromotions() {
 		mSectionsPagerAdapter.setRemotePromotionsMode(FragmentMode.List);
 		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
-	
+
 	private void addTabs(final ActionBar actionBar) {
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
