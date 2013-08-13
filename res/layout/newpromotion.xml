@@ -97,6 +97,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button"
             android:text="@string/save"
+            android:layout_margin="10dp"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

@@ -183,6 +183,10 @@ public class Promotions extends FragmentActivity implements
 				return;
 			}
 
+			if( imageReturnedIntent == null) {
+				return;
+			}
+			
 			if (this.imageView == null) {
 				return;
 			}
