@@ -23,5 +23,7 @@
     <string name="add_image">Add image</string>
     <string name="delete">Delete</string>
     <string name="clear">Clear</string>
+    <string name="clear_alert_title">Clear promoations</string>
+    <string name="clear_alert_text">Are you sure you want to delete all promotions?</string>
     <string name="promotionImage">Promotion image</string>
  </resources>
