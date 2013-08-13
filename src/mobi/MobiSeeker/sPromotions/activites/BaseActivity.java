@@ -10,6 +10,10 @@ import android.view.WindowManager;
 
 import mobi.MobiSeeker.sPromotions.connection.IChordServiceListener;
 
+/*
+ * First Commit from youssef
+ * */
+
 public abstract class BaseActivity extends FragmentActivity implements
 		IChordServiceListener {
 

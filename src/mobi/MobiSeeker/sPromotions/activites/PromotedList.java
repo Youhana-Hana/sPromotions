@@ -25,7 +25,8 @@ public class PromotedList extends ListFragment {
 		super.onViewCreated(view, savedInstanceState);
 		try {
 			this.repository = new Repository(Promotions.Local);
-			PopulateList();
+			PopulateList();  
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
