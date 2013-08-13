@@ -1,7 +1,18 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
+
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+
 import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.connection.ConnectionConstant;
+import mobi.MobiSeeker.sPromotions.connection.IChordServiceListener;
+import mobi.MobiSeeker.sPromotions.connection.NodeManager;
+import mobi.MobiSeeker.sPromotions.connection.ServiceManger;
+import mobi.MobiSeeker.sPromotions.connection.onConnected;
 import mobi.MobiSeeker.sPromotions.data.Entry;
+import mobi.MobiSeeker.sPromotions.data.Repository;
 import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
@@ -12,15 +23,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-public class Promotions extends FragmentActivity implements
-		ActionBar.TabListener {
+public class Promotions extends BaseActivity implements
+		ActionBar.TabListener ,IChordServiceListener,onConnected{
 
 	public static final String Local = "local";
 	public static final String Remote = "remote";
@@ -38,10 +52,21 @@ public class Promotions extends FragmentActivity implements
 	IntentFilter intentFIlter;
 	String nodeName;
 	
+	protected Repository repository;
+
+	/*
+	 * Connection Manger
+	 * */
+	
+	ServiceManger manger;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.promotions);
+        manger=ServiceManger.getInstance(this,true,this);
+        manger.startService();
+        manger.bindChordService();
 
 		this.nodeName = "NodeName"; // need to get this from chrod nodeManager
 		final ActionBar actionBar = getActionBar();
@@ -249,4 +274,121 @@ public class Promotions extends FragmentActivity implements
 					.setTabListener(this));
 		}
 	}
+
+		
+Ringtone r ;
+Vibrator   vibrator;
+	public void runNotification()
+	{
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+		r.play();
+		
+		if(new Settings(this).isVibrate()){
+		 //Set the pattern for vibration   
+        long pattern[]={0,200,100,300,400};
+        //Start the vibration
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        //start vibration with repeated count, use -1 if you don't want to repeat the vibration
+        vibrator.vibrate(pattern, -1);        
+		}
+	}
+
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		super.finish();
+		stop();
+		if(vibrator!=null&&vibrator.hasVibrator())
+			vibrator.cancel();
+	}
+	
+	public void stop()
+	{
+		if(r!=null&&r.isPlaying())
+		r.stop();
+	}
+
+	/*
+	 * Listeners
+	 * 
+	 * */
+	
+	@Override
+	public void connected() {
+		// TODO Auto-generated method stub
+		System.out.println("Connected");
+	}
+
+	@Override
+	public void onReceiveMessage(String node, String channel, String message,
+			String MessageType) {
+		// TODO Auto-generated method stub
+		try{
+		Repository Remoterepository = new Repository(Promotions.Remote);
+		Entry currentEntry=new Gson().fromJson(message, Entry.class);
+		Remoterepository.save(this,currentEntry);
+		Toast.makeText(this, message, 10000).show();
+		
+		}catch(Exception ee){ee.printStackTrace();}
+	}
+
+	@Override
+	public void onFileWillReceive(String node, String channel, String fileName,
+			String exchangeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFileProgress(boolean bSend, String node, String channel,
+			int progress, String exchangeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFileCompleted(int reason, String node, String channel,
+			String exchangeId, String fileName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onNodeEvent(String node, String channel, boolean bJoined) {
+		// TODO Auto-generated method stub
+		System.out.println("On Node Event");
+		try {
+			this.repository = new Repository(Promotions.Local);
+			ArrayList<Entry> entries=this.repository.getEntries(this);
+			if(entries!=null)
+			{
+				for(int i=0;i<entries.size();i++)
+				{
+					manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, entries.get(i).toString().getBytes(), node, ConnectionConstant.ENTRY);
+				}
+			}
+			
+		}catch(Exception ee){ee.printStackTrace();}
+	}
+
+	@Override
+	public void onNetworkDisconnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onUpdateNodeInfo(String nodeName, String ipAddress) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConnectivityChanged() {
+		// TODO Auto-generated method stub
+		System.out.println("Connected");
+	}
+
+	
 }

@@ -9,14 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import mobi.MobiSeeker.sPromotions.connection.ChordApiService.ChordServiceBinder;
+import mobi.MobiSeeker.sPromotions.connection.SChordApiService.ChordServiceBinder;
 import com.samsung.chord.ChordManager;
 import com.samsung.chord.IChordChannel;
 
 public class ServiceManger {
 	
 	 private static ServiceManger servicemanger;
-	private ChordApiService mChordService;
+	private SChordApiService mChordService;
 	BaseActivity mainActivity;
 	List<IChordChannel> listOfChannels;
 	private boolean Connected ;
@@ -92,7 +92,7 @@ public class ServiceManger {
 					sendData(cashedNotes.get(i).message, cashedNotes.get(i).messageType, cashedNotes.get(i).nodeName);
 				}
 				cashedNotes.clear();
-				sendDataToAll("", ConnectionConstant.GET_DEVICE_NAME);
+//				sendDataToAll("", ConnectionConstant.GET_DEVICE_NAME);
 			//	sendDataToAll("welcome",ConnectionConstant.SEND_MESSAGE);
 			}
 		};
@@ -122,12 +122,12 @@ public class ServiceManger {
 	}
 
 
-	public ChordApiService getmChordService() {
+	public SChordApiService getmChordService() {
 		return mChordService;
 	}
 
 
-	public void setmChordService(ChordApiService mChordService) {
+	public void setmChordService(SChordApiService mChordService) {
 		this.mChordService = mChordService;
 	}
 
@@ -175,20 +175,20 @@ public class ServiceManger {
 	 public void bindChordService()
 	 {
 	        if (mChordService == null) {
-	            Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_BIND");
+	            Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_BIND");
 	            mainActivity.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 	        }
     }
 
 	 public void startService()
 	 {
-	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_START");
+	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_START");
 	        mainActivity.startService(intent);
 	 }
 
 	 private void stopService()
 	 {
-	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.ChordApiService.SERVICE_STOP");
+	        Intent intent = new Intent("mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_STOP");
 	        mainActivity.stopService(intent);
 	 }
 
