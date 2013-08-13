@@ -4,8 +4,10 @@ import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.data.Adapter;
 import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.Repository;
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ public class PromotedList extends ListFragment {
 	protected Repository repository;
 	protected Adapter adapter;
 	ImageView entryAdd = null;
+	ImageView clear = null;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -46,6 +49,14 @@ public class PromotedList extends ListFragment {
 			}
 		});
 
+		this.clear = (ImageView) rootView.findViewById(R.id.clear_local);
+		this.clear.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				confirmClear();
+			}
+		});
+		
 		return rootView;
 	}
 
@@ -64,6 +75,33 @@ public class PromotedList extends ListFragment {
 		}
 		
 		context.sendBroadcast(intent);
+	}
+
+	 public void confirmClear() {
+	     	AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+	        alertDialog.setTitle(this.getResources().getString(R.string.clear_alert_title));
+	        alertDialog.setMessage(this.getResources().getString(R.string.clear_alert_text));
+	        alertDialog.setPositiveButton(this.getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	                clear();
+	            }
+	        });
+
+	        alertDialog.setNegativeButton(this.getResources().getString(android.R.string.no), new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	            }
+	        });
+
+	        alertDialog.create().show();
+	    }
+	 
+	protected void clear() {
+		try {
+			this.repository.clear(getActivity().getBaseContext());
+			PopulateList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void delete(Entry entry) {
