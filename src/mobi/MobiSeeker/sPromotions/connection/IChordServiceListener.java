@@ -11,9 +11,6 @@ public interface IChordServiceListener {
 
     public static final int FAILED = 4;
     
-    
-
-
     void onReceiveMessage(String node, String channel, String message,String MessageType);
 
     void onFileWillReceive(String node, String channel, String fileName, String exchangeId);

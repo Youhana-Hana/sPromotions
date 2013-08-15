@@ -36,9 +36,9 @@
             android:name=".connection.SChordApiService"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_START" />
-                <action android:name="com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_STOP" />
-                <action android:name="com.MobiSeeker.PrescriptionWatcher.connection.ChordApiService.SERVICE_BIND" />
+                <action android:name="mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_START" />
+                <action android:name="mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_STOP" />
+                <action android:name="mobi.MobiSeeker.sPromotions.connection.SChordApiService.SERVICE_BIND" />
             </intent-filter>
         </service>
        

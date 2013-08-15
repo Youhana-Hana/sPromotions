@@ -133,7 +133,6 @@ public class ChordChannelListener implements IChordChannelListener {
 						fromNode, fromChannel, exchangeId, fileName);
 			return;
 		}
-
 		if (null != this.listener)
 			this.listener.onFileWillReceive(fromNode, fromChannel, fileName,
 					exchangeId);

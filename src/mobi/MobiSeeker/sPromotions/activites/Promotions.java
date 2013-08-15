@@ -1,6 +1,7 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -45,7 +46,7 @@ public class Promotions extends BaseActivity implements
 	public static String View_local_Promotions_Action = "mobi.MobiSeeker.sPromotions.VIEW_LOCAL_PROMOTIONS";
 	private final int REQ_CODE_PICK_IMAGE_SETTINS = 1;
 	private final int REQ_CODE_PICK_IMAGE = 2;
-
+	private static Context applicationContext;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	BroadcastReceiver receiver;
@@ -66,6 +67,7 @@ public class Promotions extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.promotions);
+		applicationContext=this;
         manger=ServiceManger.getInstance(this,true,this);
         manger.startService();
         manger.bindChordService();
@@ -114,10 +116,12 @@ public class Promotions extends BaseActivity implements
 			setIntent(intent);
 			this.addViewPromotion();
 		} else if (intent.getAction().equalsIgnoreCase(
-				Promotions.View_local_Promotions_Action)) {
+				Promotions.View_local_Promotions_Action)) 
+		{
 			this.viewLocalPromotions();
 		} else if (intent.getAction().equalsIgnoreCase(
-				Promotions.View_Remote_Promotion_Action)) {
+				Promotions.View_Remote_Promotion_Action))
+		{
 			setIntent(intent);
 			this.viewRemotePromotion();
 		}
@@ -345,19 +349,27 @@ Vibrator   vibrator;
 	public void onReceiveMessage(String node, String channel, String message,
 			String MessageType) {
 		// TODO Auto-generated method stub
-		try{
+		
+		try
+		{
+			
 		Repository Remoterepository = new Repository(Promotions.Remote);
 		Entry currentEntry=new Gson().fromJson(message, Entry.class);
 		Remoterepository.save(this,currentEntry);
-		Toast.makeText(this, message, 10000).show();
+		//Toast.makeText(this, message, 10000).show();
 		
-		}catch(Exception ee){ee.printStackTrace();}
+		}catch(Exception ee)
+		{
+			ee.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onFileWillReceive(String node, String channel, String fileName,
 			String exchangeId) {
 		// TODO Auto-generated method stub
+		manger.getmChordService().acceptFile(channel, exchangeId);
+		
 		
 	}
 
@@ -372,6 +384,11 @@ Vibrator   vibrator;
 	public void onFileCompleted(int reason, String node, String channel,
 			String exchangeId, String fileName) {
 		// TODO Auto-generated method stub
+		if(!new Settings(Promotions.this).isTextOnly())
+		{
+			
+			
+		}
 		
 	}
 
@@ -379,20 +396,66 @@ Vibrator   vibrator;
 	public void onNodeEvent(String node, String channel, boolean bJoined) {
 		// TODO Auto-generated method stub
 		System.out.println("On Node Event");
-		try {
-			this.repository = new Repository(Promotions.Local);
-			ArrayList<Entry> entries=this.repository.getEntries(this);
-			if(entries!=null)
-			{
-				for(int i=0;i<entries.size();i++)
-				{
-					manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, entries.get(i).toString().getBytes(), node, ConnectionConstant.ENTRY);
-				}
-			}
-			
-		}catch(Exception ee){ee.printStackTrace();}
+		onJoinedNode(node, channel, bJoined);
 	}
 
+	
+	public void onJoinedNode(final String node, final String channel, boolean bJoined)
+	{
+		if(bJoined)
+		{
+			Thread thread=new Thread()
+			{
+				public void run()
+				{
+					try {
+						repository = new Repository(Promotions.Local);
+						ArrayList<Entry> entries=repository.getEntries(Promotions.this);
+						
+						if(entries!=null)
+						{
+							for(int i=0;i<entries.size();i++)
+							{
+								Entry selectedEntry=entries.get(i);
+								if(selectedEntry.getImagePath()!=null){
+									
+									selectedEntry.setImagePath(getFilesDir().getAbsolutePath()+"/"+Promotions.Remote+getImageName(selectedEntry.getImagePath()));	
+														}
+								if(selectedEntry.getLogo()!=null){
+								selectedEntry.setLogo(getFilesDir().getAbsolutePath()+"/"+Promotions.Remote+getImageName(selectedEntry.getLogo()));
+								}
+								manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, selectedEntry.toString().getBytes(), node, ConnectionConstant.ENTRY);
+								String imageUrl = entries.get(i).getImagePath();
+								String logoUrl = entries.get(i).getLogo();
+								if (imageUrl != null&&!imageUrl.isEmpty()) {
+									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, imageUrl, node);
+								}
+								
+								if (logoUrl != null&&!logoUrl.isEmpty()) {
+									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, logoUrl, node);
+								}
+								
+								
+							}
+						}
+					}catch(Exception ee){ee.printStackTrace();}
+				}
+			};
+			thread.start();
+		}
+	}
+	
+	public String getImageName(String filePath)
+	{
+		try{
+		int indexofbackslash=filePath.lastIndexOf("/");
+		return filePath.substring(indexofbackslash);
+		}catch(Exception ee)
+		{
+			return "";
+		}
+	}
+	
 	@Override
 	public void onNetworkDisconnected() {
 		// TODO Auto-generated method stub
@@ -411,5 +474,10 @@ Vibrator   vibrator;
 		System.out.println("Connected");
 	}
 
-	
+	public static Context getContext()
+	{
+		
+		return applicationContext;
+		
+	}
 }

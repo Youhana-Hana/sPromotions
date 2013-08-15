@@ -82,6 +82,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	public void onFileWillReceive(String node, String channel, String fileName,
 			String exchangeId) {
 		// TODO Auto-generated method stub
+		
 
 	}
 

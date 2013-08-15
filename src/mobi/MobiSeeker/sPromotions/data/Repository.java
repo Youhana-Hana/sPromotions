@@ -84,6 +84,9 @@ public class Repository {
 		fileOutputStream.close();
 	}
 
+
+	
+	
 	public ArrayList<Entry> getEntries(Context context) throws Exception {
 
 		ArrayList<Entry> entries = new ArrayList<Entry>();

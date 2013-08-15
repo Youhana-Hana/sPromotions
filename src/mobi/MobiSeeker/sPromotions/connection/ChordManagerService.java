@@ -1,10 +1,10 @@
 package mobi.MobiSeeker.sPromotions.connection;
 
-import android.os.Environment;
+import java.util.List;
+
+import mobi.MobiSeeker.sPromotions.activites.Promotions;
 
 import com.samsung.chord.ChordManager;
-
-import java.util.List;
 
 public class ChordManagerService {
 
@@ -19,7 +19,6 @@ public class ChordManagerService {
     }
 
     public String getChordFilePath() {
-        return Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + "/Prescription";
+        return Promotions.getContext().getFilesDir().getAbsolutePath()+"/"+Promotions.Remote;
     }
 }
