@@ -5,8 +5,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.samsung.chord.ChordManager;
 
 import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.connection.ChordManagerService;
 import mobi.MobiSeeker.sPromotions.connection.ConnectionConstant;
 import mobi.MobiSeeker.sPromotions.connection.IChordServiceListener;
 import mobi.MobiSeeker.sPromotions.connection.NodeManager;
@@ -23,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -31,6 +34,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -195,6 +199,17 @@ public class Promotions extends BaseActivity implements
 				.instantiateItem(mViewPager, 0);
 		promotionsList.delete(entry);
 	}
+	
+	public void refreshRemoteList()
+	{
+		try{
+		runNotification();	
+		PromotionsList promotionsList = (PromotionsList) mSectionsPagerAdapter
+				.instantiateItem(mViewPager, 0);
+		promotionsList.PopulateList(this.getApplicationContext());
+		}catch(Exception ee){ee.printStackTrace();}
+		
+	}
 
 	public void pickLogo(View view) {
 		this.pickImageFromGallery(REQ_CODE_PICK_IMAGE_SETTINS);
@@ -267,8 +282,19 @@ public class Promotions extends BaseActivity implements
 		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 		String imagePath = cursor.getString(columnIndex);
 		cursor.close();
-
-		image.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 8;
+		Bitmap bitmap=BitmapFactory.decodeFile(imagePath,options);
+		if(bitmap.getWidth()>200 &&bitmap.getHeight()>200)
+		{
+		
+			Toast.makeText(this, "Please select small image maximum width and height 200 X 200 pixel", 3000).show();
+			bitmap.recycle();
+			return null;
+		}
+		
+		image.setImageBitmap(bitmap);
+		
 		return imagePath;
 	}
 
@@ -352,12 +378,20 @@ Vibrator   vibrator;
 		
 		try
 		{
-			
+			nodeName=node;
 		Repository Remoterepository = new Repository(Promotions.Remote);
-		Entry currentEntry=new Gson().fromJson(message, Entry.class);
-		Remoterepository.save(this,currentEntry);
-		//Toast.makeText(this, message, 10000).show();
 		
+		Entry selectedEntry=new Gson().fromJson(message, Entry.class);
+		if(selectedEntry.getImagePath()!=null){
+			
+			selectedEntry.setImagePath(new ChordManagerService(null).getChordFilePath()+getImageName(selectedEntry.getImagePath()));	
+								}
+		if(selectedEntry.getLogo()!=null){
+		selectedEntry.setLogo(new ChordManagerService(null).getChordFilePath()+getImageName(selectedEntry.getLogo()));
+		}
+
+		Remoterepository.save(this,selectedEntry);
+		//Toast.makeText(this, message, 10000).show();
 		}catch(Exception ee)
 		{
 			ee.printStackTrace();
@@ -368,7 +402,18 @@ Vibrator   vibrator;
 	public void onFileWillReceive(String node, String channel, String fileName,
 			String exchangeId) {
 		// TODO Auto-generated method stub
-		manger.getmChordService().acceptFile(channel, exchangeId);
+		if(!new Settings(Promotions.this).isTextOnly())
+		{
+			
+			manger.getmChordService().acceptFile(channel, exchangeId);
+		}else
+		{
+			manger.getmChordService().rejectFile(channel, exchangeId);
+			refreshRemoteList();
+			
+			
+		}
+		
 		
 		
 	}
@@ -383,12 +428,8 @@ Vibrator   vibrator;
 	@Override
 	public void onFileCompleted(int reason, String node, String channel,
 			String exchangeId, String fileName) {
-		// TODO Auto-generated method stub
-		if(!new Settings(Promotions.this).isTextOnly())
-		{
-			
-			
-		}
+		
+		refreshRemoteList();
 		
 	}
 
@@ -417,22 +458,15 @@ Vibrator   vibrator;
 							for(int i=0;i<entries.size();i++)
 							{
 								Entry selectedEntry=entries.get(i);
-								if(selectedEntry.getImagePath()!=null){
-									
-									selectedEntry.setImagePath(getFilesDir().getAbsolutePath()+"/"+Promotions.Remote+getImageName(selectedEntry.getImagePath()));	
-														}
-								if(selectedEntry.getLogo()!=null){
-								selectedEntry.setLogo(getFilesDir().getAbsolutePath()+"/"+Promotions.Remote+getImageName(selectedEntry.getLogo()));
-								}
+								String originalImagePath=selectedEntry.getImagePath();
+								String originalLogoPath=selectedEntry.getLogo();
 								manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, selectedEntry.toString().getBytes(), node, ConnectionConstant.ENTRY);
-								String imageUrl = entries.get(i).getImagePath();
-								String logoUrl = entries.get(i).getLogo();
-								if (imageUrl != null&&!imageUrl.isEmpty()) {
-									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, imageUrl, node);
+								if (originalImagePath != null&&!originalImagePath.isEmpty()) {
+									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, originalImagePath, node);
 								}
 								
-								if (logoUrl != null&&!logoUrl.isEmpty()) {
-									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, logoUrl, node);
+								if (originalLogoPath != null&&!originalLogoPath.isEmpty()) {
+									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, originalLogoPath, node);
 								}
 								
 								

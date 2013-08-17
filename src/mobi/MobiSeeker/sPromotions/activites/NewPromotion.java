@@ -1,6 +1,11 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
+import java.util.List;
+
 import mobi.MobiSeeker.sPromotions.R;
+import mobi.MobiSeeker.sPromotions.connection.ConnectionConstant;
+import mobi.MobiSeeker.sPromotions.connection.NodeManager;
+import mobi.MobiSeeker.sPromotions.connection.ServiceManger;
 import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.Repository;
 import android.app.AlertDialog;
@@ -105,11 +110,40 @@ public class NewPromotion extends Fragment {
 		Context context = getActivity().getBaseContext();
 		try {
 			repository.save(context, getEntry(context));
+			sendEntryToAllNodes(getEntry(context));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	public void sendEntryToAllNodes(final Entry entry)
+	{
+		Thread th=new Thread()
+		{
+			public void run()
+			{
+				try{
+				ServiceManger manger=ServiceManger.getInstance(null, false, null);
+				List<String> nodeList=manger.getmChordService().getJoinedNodeList(NodeManager.CHORD_API_CHANNEL);
+				
+				for(int i=0;i<nodeList.size();i++)
+				{
+					manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, entry.toString().getBytes(), nodeList.get(i), ConnectionConstant.ENTRY);
+					manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, entry.getImagePath(), nodeList.get(i));
+					manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, entry.getLogo(), nodeList.get(i));
+					Thread.sleep(100);
+				}
+				
+				}catch(Exception ee){ee.printStackTrace();}
+				
+			}
+			
+			
+		};
+		th.start();
+		
+	}
+	
 
 	private Entry getEntry(Context context) {
 

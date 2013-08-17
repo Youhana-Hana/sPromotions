@@ -4,6 +4,7 @@ import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.data.Adapter;
 import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.Repository;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.Context;
@@ -22,12 +23,13 @@ public class PromotionsList extends ListFragment {
 	protected Adapter adapter;
 	ImageView clear = null;
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		try {
 			this.repository = new Repository(Promotions.Remote);
-			PopulateList();
+			PopulateList(this.getActivity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,7 +73,7 @@ public class PromotionsList extends ListFragment {
 	protected void clear() {
 		try {
 			this.repository.clear(getActivity().getBaseContext());
-			PopulateList();
+			PopulateList(this.getActivity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +90,7 @@ public class PromotionsList extends ListFragment {
 		try {
 			Context context = getActivity().getBaseContext();
 			this.repository.delete(context, entry);
-			PopulateList();
+			PopulateList(this.getActivity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,8 +106,7 @@ public class PromotionsList extends ListFragment {
 		context.sendBroadcast(intent);
 	}
 
-	private void PopulateList() throws Exception {
-		Context context = getActivity().getBaseContext();
+	public void PopulateList(Context context) throws Exception {
 		this.adapter = new Adapter(context, R.layout.remote_entry,
 				repository.getEntries(context));
 		setListAdapter(this.adapter);

@@ -5,6 +5,8 @@ import mobi.MobiSeeker.sPromotions.data.Entry;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,8 +52,10 @@ public class Promotion extends Fragment {
 		if (imageUrl.isEmpty() || imageUrl == null) {
 			return;
 		}
-
+		try{
 		this.entryImage.setImageURI(Uri.parse(entry.getImagePath()));
+		}catch(Exception ee){ee.printStackTrace();}
+		
 	}
 
 	void goHome() {
