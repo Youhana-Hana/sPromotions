@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,9 +58,10 @@ public class Adapter extends ArrayAdapter<Entry> {
         viewHolder.text.setText(entry.getText());
         
         if (viewHolder.logo != null) {
+        	if(entry.getLogo()!=null)
         	viewHolder.logo.setImageURI(Uri.parse(entry.getLogo()));
         }
-        
+        if(entry.getImagePath()!=null)
         viewHolder.image.setImageURI(Uri.parse(entry.getImagePath()));
         viewHolder.delete.setTag(entry);
         return rowView;

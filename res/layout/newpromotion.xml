@@ -83,7 +83,7 @@
         <Button
             android:id="@+id/entrySaveCancel"
             style="@android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp" android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/button"
             android:text="@android:string/cancel"
@@ -93,7 +93,7 @@
         <Button
             android:id="@+id/entrySave"
             style="@android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp" android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/button"
             android:text="@string/save"

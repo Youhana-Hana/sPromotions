@@ -46,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/entryDelete"
+        android:layout_below="@id/entrySummary"
         android:adjustViewBounds="true"
         android:contentDescription="@string/promotionImage"
         android:focusable="false"

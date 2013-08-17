@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-
-    <ImageView
-        android:id="@+id/entryLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@id/entryTitle"
-        android:layout_marginLeft="2dp"
-        android:adjustViewBounds="true"
-        android:focusable="false"
-        android:maxHeight="@dimen/large_image_height"
-        android:maxWidth="@dimen/large_image_with" />
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/entryTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/entryLogo"
+        android:layout_alignParentLeft="true"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:padding="3dp"
@@ -29,19 +17,19 @@
 
     <TextView
         android:id="@+id/entrySummary"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/entryTitle"
-        android:layout_toRightOf="@id/entryLogo"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:maxLength="100"
         android:maxLines="2"
         android:padding="3dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"/>
 
-    <ImageView 
+      <ImageView 
         android:id="@+id/entryDelete"
         style="@android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
@@ -58,10 +46,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/entryDelete"
+        android:layout_below="@id/entrySummary"
         android:adjustViewBounds="true"
         android:contentDescription="@string/promotionImage"
         android:focusable="false"
         android:maxHeight="@dimen/large_image_height"
         android:maxWidth="@dimen/large_image_with" />
-
+    
+      <ImageView
+        android:id="@+id/entryLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:adjustViewBounds="true"
+        android:focusable="false" 
+        android:layout_below="@id/entrySummary"
+        android:maxHeight="@dimen/large_image_height"
+        android:maxWidth="@dimen/large_image_with" />
 </RelativeLayout>

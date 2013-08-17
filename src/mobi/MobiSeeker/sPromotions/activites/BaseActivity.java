@@ -6,9 +6,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.view.WindowManager;
 
 import mobi.MobiSeeker.sPromotions.connection.IChordServiceListener;
+import mobi.MobiSeeker.sPromotions.data.Entry;
 
 /*
  * First Commit from youssef
@@ -123,5 +125,5 @@ public abstract class BaseActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 
 	}
-
+	
 }

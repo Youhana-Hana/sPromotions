@@ -1,11 +1,7 @@
 package mobi.MobiSeeker.sPromotions.activites;
 
 
-import java.io.File;
 import java.util.ArrayList;
-
-import com.google.gson.Gson;
-import com.samsung.chord.ChordManager;
 
 import mobi.MobiSeeker.sPromotions.R;
 import mobi.MobiSeeker.sPromotions.connection.ChordManagerService;
@@ -15,8 +11,8 @@ import mobi.MobiSeeker.sPromotions.connection.NodeManager;
 import mobi.MobiSeeker.sPromotions.connection.ServiceManger;
 import mobi.MobiSeeker.sPromotions.connection.onConnected;
 import mobi.MobiSeeker.sPromotions.data.Entry;
-import mobi.MobiSeeker.sPromotions.data.Repository;
 import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
+import mobi.MobiSeeker.sPromotions.data.Repository;
 import mobi.MobiSeeker.sPromotions.data.Settings;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -34,9 +30,10 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class Promotions extends BaseActivity implements
 		ActionBar.TabListener ,IChordServiceListener,onConnected{
@@ -70,7 +67,9 @@ public class Promotions extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.promotions);
+		setCurrentRoboActivity(this);
 		applicationContext=this;
         manger=ServiceManger.getInstance(this,true,this);
         manger.startService();
@@ -183,18 +182,18 @@ public class Promotions extends BaseActivity implements
 		if (entry == null) {
 			return;
 		}
-
 		PromotedList promotedList = (PromotedList) mSectionsPagerAdapter
 				.instantiateItem(mViewPager, 1);
 		promotedList.delete(entry);
 	}
 
+	
+	
 	public void deleteRemoteEntry(View view) {
 		Entry entry = (Entry) view.getTag();
 		if (entry == null) {
 			return;
 		}
-
 		PromotionsList promotionsList = (PromotionsList) mSectionsPagerAdapter
 				.instantiateItem(mViewPager, 0);
 		promotionsList.delete(entry);
@@ -206,7 +205,7 @@ public class Promotions extends BaseActivity implements
 		runNotification();	
 		PromotionsList promotionsList = (PromotionsList) mSectionsPagerAdapter
 				.instantiateItem(mViewPager, 0);
-		promotionsList.PopulateList(this.getApplicationContext());
+		promotionsList.PopulateList();
 		}catch(Exception ee){ee.printStackTrace();}
 		
 	}
@@ -228,9 +227,7 @@ public class Promotions extends BaseActivity implements
 
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
-
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
 		switch (requestCode) {
 		case REQ_CODE_PICK_IMAGE:
 		case REQ_CODE_PICK_IMAGE_SETTINS:
@@ -331,7 +328,7 @@ Ringtone r ;
 Vibrator   vibrator;
 	public void runNotification()
 	{
-		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 		r.play();
 		
@@ -382,15 +379,23 @@ Vibrator   vibrator;
 		Repository Remoterepository = new Repository(Promotions.Remote);
 		
 		Entry selectedEntry=new Gson().fromJson(message, Entry.class);
-		if(selectedEntry.getImagePath()!=null){
+		if(selectedEntry.getImagePath()!=null)
+		{
 			
 			selectedEntry.setImagePath(new ChordManagerService(null).getChordFilePath()+getImageName(selectedEntry.getImagePath()));	
 								}
-		if(selectedEntry.getLogo()!=null){
+		if(selectedEntry.getLogo()!=null)
+		{
 		selectedEntry.setLogo(new ChordManagerService(null).getChordFilePath()+getImageName(selectedEntry.getLogo()));
 		}
 
+		
 		Remoterepository.save(this,selectedEntry);
+		if(selectedEntry.getLogo()==null&&selectedEntry.getImagePath()==null)
+		{
+			refreshRemoteList();
+		}
+
 		//Toast.makeText(this, message, 10000).show();
 		}catch(Exception ee)
 		{

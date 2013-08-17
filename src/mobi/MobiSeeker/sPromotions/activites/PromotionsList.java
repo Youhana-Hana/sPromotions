@@ -29,7 +29,7 @@ public class PromotionsList extends ListFragment {
 		super.onViewCreated(view, savedInstanceState);
 		try {
 			this.repository = new Repository(Promotions.Remote);
-			PopulateList(this.getActivity());
+			PopulateList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +73,7 @@ public class PromotionsList extends ListFragment {
 	protected void clear() {
 		try {
 			this.repository.clear(getActivity().getBaseContext());
-			PopulateList(this.getActivity());
+			PopulateList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class PromotionsList extends ListFragment {
 		try {
 			Context context = getActivity().getBaseContext();
 			this.repository.delete(context, entry);
-			PopulateList(this.getActivity());
+			PopulateList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,9 +106,12 @@ public class PromotionsList extends ListFragment {
 		context.sendBroadcast(intent);
 	}
 
-	public void PopulateList(Context context) throws Exception {
-		this.adapter = new Adapter(context, R.layout.remote_entry,
+	public void PopulateList() throws Exception {
+		Context context = getActivity().getBaseContext();
+		this.adapter = new Adapter(context, R.layout.entry,
 				repository.getEntries(context));
 		setListAdapter(this.adapter);
+		
 	}
+	
 }
