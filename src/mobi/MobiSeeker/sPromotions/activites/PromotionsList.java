@@ -108,10 +108,19 @@ public class PromotionsList extends ListFragment {
 
 	public void PopulateList() throws Exception {
 		Context context = getActivity().getBaseContext();
-		this.adapter = new Adapter(context, R.layout.entry,
+		this.adapter = new Adapter(context, R.layout.remote_entry,
 				repository.getEntries(context));
 		setListAdapter(this.adapter);
 		
 	}
+
+	public void PopulateList(Context context) throws Exception {
+
+		this.adapter = new Adapter(context, R.layout.remote_entry,
+				repository.getEntries(context));
+		setListAdapter(this.adapter);
+		
+	}
+
 	
 }

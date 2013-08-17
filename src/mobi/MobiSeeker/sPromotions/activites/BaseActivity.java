@@ -51,19 +51,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	{
 
 	}
-	Ringtone r;
-	Uri notification;
-	public void runNotification()
-	{
-		if(notification==null)
-		 notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		if(r==null)
-		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-		if(!r.isPlaying())
-		r.play();
-		
-		
-	}
+
 	
 	public void stopAlaram()
 	{

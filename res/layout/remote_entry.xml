@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/entryTitle"
+        android:layout_below="@id/entryTitle" android:layout_marginRight="50dp"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:maxLength="100"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:adjustViewBounds="true"
-        android:focusable="false" 
+        android:focusable="false" android:layout_alignParentLeft="true"
         android:layout_below="@id/entrySummary"
         android:maxHeight="@dimen/large_image_height"
         android:maxWidth="@dimen/large_image_with" />

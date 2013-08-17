@@ -20,7 +20,9 @@ public class Promotion extends Fragment {
 	TextView entrySummary = null;
 	ImageView entryImage = null;
 	Entry entryFromIntent = null;
-
+	ImageView logoimage = null;
+	TextView username=null;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class Promotion extends Fragment {
 				.findViewById(R.id.promotion_text);
 		this.entryImage = (ImageView) rootView
 				.findViewById(R.id.promotion_image);
+		this.logoimage =(ImageView) rootView
+				.findViewById(R.id.logoimage);
+		username=(TextView)rootView.findViewById(R.id.usernametext);
 
 		this.getEntryFromIntent();
 		return rootView;
@@ -48,12 +53,24 @@ public class Promotion extends Fragment {
 
 		this.entryTitle.setText(entry.getTitle());
 		this.entrySummary.setText(entry.getText());
+		username.setText(entry.getUsername());
 		String imageUrl = entry.getImagePath();
-		if (imageUrl.isEmpty() || imageUrl == null) {
-			return;
+		if ( imageUrl == null ||imageUrl.isEmpty()) {
+		}else
+		{
+			this.entryImage.setImageURI(Uri.parse(entry.getImagePath()));
 		}
+		
+		if (imageUrl == null||entry.getLogo().isEmpty() ) {
+
+		}else
+		{
+			this.logoimage.setImageURI(Uri.parse(entry.getLogo()));			
+		}
+
+		
 		try{
-		this.entryImage.setImageURI(Uri.parse(entry.getImagePath()));
+
 		}catch(Exception ee){ee.printStackTrace();}
 		
 	}

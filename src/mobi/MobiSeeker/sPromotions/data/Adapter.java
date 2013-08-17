@@ -58,11 +58,12 @@ public class Adapter extends ArrayAdapter<Entry> {
         viewHolder.text.setText(entry.getText());
         
         if (viewHolder.logo != null) {
-        	if(entry.getLogo()!=null)
+
         	viewHolder.logo.setImageURI(Uri.parse(entry.getLogo()));
         }
-        if(entry.getImagePath()!=null)
+        if(entry.getImagePath()!=null){
         viewHolder.image.setImageURI(Uri.parse(entry.getImagePath()));
+        }
         viewHolder.delete.setTag(entry);
         return rowView;
     }

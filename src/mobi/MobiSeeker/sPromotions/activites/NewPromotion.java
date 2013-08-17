@@ -101,6 +101,7 @@ public class NewPromotion extends Fragment {
 		if (imageUrl.isEmpty() || imageUrl == null) {
 			return;
 		}
+		
 
 		this.entryImage.setImageURI(Uri.parse(entry.getImagePath()));
 	}

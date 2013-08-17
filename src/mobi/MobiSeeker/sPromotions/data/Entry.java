@@ -9,7 +9,10 @@ import com.google.gson.Gson;
 public class Entry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private String username;
+	
+	
 	public Entry(String title, String text, String logo, String imagePath,
 			String nodeName) {
 
@@ -80,4 +83,16 @@ public class Entry implements Serializable {
 	private String logo;
 	private String nodeName;
 	private long time;
+
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
+	
 }

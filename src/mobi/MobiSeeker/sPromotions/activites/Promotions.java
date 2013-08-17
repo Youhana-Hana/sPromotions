@@ -14,8 +14,12 @@ import mobi.MobiSeeker.sPromotions.data.Entry;
 import mobi.MobiSeeker.sPromotions.data.FragmentModes.FragmentMode;
 import mobi.MobiSeeker.sPromotions.data.Repository;
 import mobi.MobiSeeker.sPromotions.data.Settings;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +32,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -205,7 +210,7 @@ public class Promotions extends BaseActivity implements
 		runNotification();	
 		PromotionsList promotionsList = (PromotionsList) mSectionsPagerAdapter
 				.instantiateItem(mViewPager, 0);
-		promotionsList.PopulateList();
+		promotionsList.PopulateList(this);
 		}catch(Exception ee){ee.printStackTrace();}
 		
 	}
@@ -241,9 +246,11 @@ public class Promotions extends BaseActivity implements
 
 			ImageView image = null;
 
-			if (requestCode == REQ_CODE_PICK_IMAGE) {
+			if (requestCode == REQ_CODE_PICK_IMAGE)
+			{
 				image = (ImageView) findViewById(R.id.image);
-			} else {
+			} else 
+			{
 				image = (ImageView) findViewById(R.id.logo);
 			}
 
@@ -326,8 +333,26 @@ public class Promotions extends BaseActivity implements
 		
 Ringtone r ;
 Vibrator   vibrator;
+	@SuppressLint("NewApi")
 	public void runNotification()
 	{
+		try{
+		NotificationCompat.Builder mBuilder =
+		        new NotificationCompat.Builder(this)
+		        .setSmallIcon(R.drawable.launcher)
+		        .setContentTitle(currentSelectedEntry.getTitle())
+		        .setContentText(currentSelectedEntry.getText());
+		Intent resultIntent = new Intent(this, Promotions.class);
+
+		PendingIntent pIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
+
+		mBuilder.setContentIntent(pIntent);
+		NotificationManager mNotificationManager =
+		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.notify(0, mBuilder.build());
+		}catch(Exception ee){ee.printStackTrace();}
+		
+		
 		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 		r.play();
@@ -367,7 +392,7 @@ Vibrator   vibrator;
 		// TODO Auto-generated method stub
 		System.out.println("Connected");
 	}
-
+Entry currentSelectedEntry;
 	@Override
 	public void onReceiveMessage(String node, String channel, String message,
 			String MessageType) {
@@ -379,6 +404,7 @@ Vibrator   vibrator;
 		Repository Remoterepository = new Repository(Promotions.Remote);
 		
 		Entry selectedEntry=new Gson().fromJson(message, Entry.class);
+		currentSelectedEntry=selectedEntry;
 		if(selectedEntry.getImagePath()!=null)
 		{
 			
@@ -463,8 +489,12 @@ Vibrator   vibrator;
 							for(int i=0;i<entries.size();i++)
 							{
 								Entry selectedEntry=entries.get(i);
+								Settings settings=new Settings(Promotions.this);
+								if(settings.getUserName()!=null&&!settings.getUserName().equalsIgnoreCase("Guest"))
+								selectedEntry.setUsername(settings.getUserName());
 								String originalImagePath=selectedEntry.getImagePath();
 								String originalLogoPath=selectedEntry.getLogo();
+								
 								manger.getmChordService().sendData(NodeManager.CHORD_API_CHANNEL, selectedEntry.toString().getBytes(), node, ConnectionConstant.ENTRY);
 								if (originalImagePath != null&&!originalImagePath.isEmpty()) {
 									manger.getmChordService().sendFile(NodeManager.CHORD_API_CHANNEL, originalImagePath, node);
