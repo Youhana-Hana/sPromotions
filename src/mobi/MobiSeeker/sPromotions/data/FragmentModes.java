@@ -5,6 +5,7 @@ public class FragmentModes {
 	public enum FragmentMode {
 		List,
 		View,
-		Edit
+		Edit,
+		NEW
 	};
 }

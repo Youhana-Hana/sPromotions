@@ -118,7 +118,9 @@ public class Promotions extends BaseActivity implements
 	protected void handleReceiverIntent(Intent intent) {
 		if (intent.getAction().equalsIgnoreCase(
 				Promotions.Add_New_Promotion_Action)) {
-			this.addViewPromotion();
+			intent.removeExtra("entry");
+			setIntent(intent);
+			this.addNewViewPromotion();
 		} else if (intent.getAction().equalsIgnoreCase(
 				Promotions.View_Promotion_Action)) {
 			setIntent(intent);
@@ -287,8 +289,9 @@ public class Promotions extends BaseActivity implements
 		String imagePath = cursor.getString(columnIndex);
 		cursor.close();
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 8;
+		options.inSampleSize = 1;
 		Bitmap bitmap=BitmapFactory.decodeFile(imagePath,options);
+		
 		if(bitmap.getWidth()>200 &&bitmap.getHeight()>200)
 		{
 		
@@ -300,6 +303,11 @@ public class Promotions extends BaseActivity implements
 		image.setImageBitmap(bitmap);
 		
 		return imagePath;
+	}
+
+	private void addNewViewPromotion() {
+		mSectionsPagerAdapter.setPromotionsMode(FragmentMode.NEW);
+		mSectionsPagerAdapter.notifyDataSetChanged();
 	}
 
 	private void addViewPromotion() {

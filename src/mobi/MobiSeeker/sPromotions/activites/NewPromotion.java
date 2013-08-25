@@ -31,6 +31,7 @@ public class NewPromotion extends Fragment {
 	ImageView entryImage = null;
 	Entry entryFromIntent = null;
 	String nodeName = null;
+	public boolean isNew;
 
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
@@ -45,6 +46,8 @@ public class NewPromotion extends Fragment {
 		this.entryTitle = (EditText) rootView.findViewById(R.id.editTitle);
 		this.entrySummary = (EditText) rootView.findViewById(R.id.editText);
 		this.entryImage = (ImageView) rootView.findViewById(R.id.image);
+		
+		
 
 		this.entrySave = (Button) rootView.findViewById(R.id.entrySave);
 		this.entrySaveCancel = (Button) rootView
@@ -70,6 +73,7 @@ public class NewPromotion extends Fragment {
 			}
 		});
 
+		
 		this.SetVauesFromIntent();
 
 		return rootView;

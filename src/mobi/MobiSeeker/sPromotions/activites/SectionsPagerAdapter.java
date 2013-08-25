@@ -51,6 +51,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 		
 		NewPromotion newPromotion = new NewPromotion();
 		newPromotion.setNodeName(this.nodeName);
+		
 		return newPromotion;
 	}
 	
@@ -59,7 +60,12 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 	    {
 	        if (object instanceof PromotedList && this.promoteMode == FragmentMode.List) {
 	        	return POSITION_UNCHANGED;
+	        
 	        }
+	        if (object instanceof NewPromotion && this.promoteMode == FragmentMode.NEW) {
+	        	return POSITION_NONE;
+	        }
+	        
 	        
 	        if (object instanceof NewPromotion && this.promoteMode == FragmentMode.Edit) {
 	        	return POSITION_UNCHANGED;
